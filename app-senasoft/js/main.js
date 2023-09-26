@@ -103,10 +103,8 @@ function identifyImageURL(imageUrl) {
     .then(prediction => {
         let responseUrl = prediction.predictions[0].tagName;
         resultado.textContent = responseUrl;
-        aumentardatos(resultado.textContent)
         traducir(responseUrl,idioma_detectado);
-        // const result = prediction.predictions[0].tagName;
-        // resultParagraph.textContent = result
+        //aumentardatos(responseUrl);
     })
     .catch(error => {
         resultado.textContent = "An error occurred:", error;
@@ -156,9 +154,9 @@ function identifyImageFILE() {
     .then(data => {
         console.log(data.predictions[0].tagName);
         let responseFile = data.predictions[0].tagName;
-        traducir(responseFile,idioma_detectado);
         resultado.textContent = responseFile;
-        aumentardatos(resultado.textContent)
+        traducir(responseFile,idioma_detectado);
+        //aumentardatos(responseFile);
     })
     .catch(error => {
         resultado.textContent = "Hubo un error al hacer la solicitud: " + error.message;
@@ -173,7 +171,7 @@ function traducir(texto_traducir, idioma_detectado) {
     fetch("https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to="+idioma_detectado+"&to=fr&to=zh",{
         method: "POST",
         headers: {
-            "Ocp-Apim-Subscription-Key": "c57f563494ad41df92dfbe31871ad5cc",
+            "Ocp-Apim-Subscription-Key": "b562ea315899456c9fcde921ce10926b",
             "Ocp-Apim-Subscription-Region": "eastus",
             "Content-Type": "application/json"
             
@@ -185,14 +183,19 @@ function traducir(texto_traducir, idioma_detectado) {
         console.log(data[0].translations);
         
         data[0].translations.forEach(idiomas => {
-            let boton = document.createElement('button');
-            boton.textContent = "si";
+            
+            // let boton = document.createElement('button');
+
+            // let icono = document.createElement('i');
+            // icono.classList.add('fa-solid fa-volume-high fa-fade');
+
+            // boton.append(icono);
 
             let resultadoTraducido = document.createElement('h6');
 
             resultadoTraducido.textContent = `Lenguaje detectado: (${idiomas.to}) = ${idiomas.text}`;
-            resultadoTraducido.classList.add('text-center');
-            resultadoTraducido.append(boton);
+            resultadoTraducido.classList.add('text-center text-dark');
+            //resultadoTraducido.append(boton);
 
             resultIdiomas.append(resultadoTraducido);
         });
@@ -220,42 +223,42 @@ function traducir(texto_traducir, idioma_detectado) {
 //italiano zh-CN
 
 
-function hablar(texto_hablar,lang,name) {
-    const apiUrl = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1';
-    const subscriptionKey = '64bd01cdd7d94e569857f92701fd3a38'; 
+// function hablar(texto_hablar,lang,name) {
+//     const apiUrl = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1';
+//     const subscriptionKey = '64bd01cdd7d94e569857f92701fd3a38'; 
     
-    fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Ocp-Apim-Subscription-Key': subscriptionKey,
-            'Content-Type': 'application/ssml+xml',
-            'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
-            'User-Agent': 'curl'
-        },
-            // <speak version='1.0' xml:lang='it-IT'><voice xml:lang='it-IT' xml:gender='Female' name='it-IT-FedericaNeural'>"+texto_hablar+"</voice></speak>
-        body: `<speak version='1.0' xml:lang='${lang}'><voice xml:lang='${lang}' xml:gender='Female' name='${name}'>${texto_hablar}</voice></speak>`
-    })
-    .then((response) => {
-        if (response.ok) {
-            return response.blob();
-        } else {
-            throw new Error('Error en la solicitud a la API.');
-        }
-    })
-    .then((blob) => {
-        const url = URL.createObjectURL(blob);
+//     fetch(apiUrl, {
+//         method: 'POST',
+//         headers: {
+//             'Ocp-Apim-Subscription-Key': subscriptionKey,
+//             'Content-Type': 'application/ssml+xml',
+//             'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
+//             'User-Agent': 'curl'
+//         },
+//             // <speak version='1.0' xml:lang='it-IT'><voice xml:lang='it-IT' xml:gender='Female' name='it-IT-FedericaNeural'>"+texto_hablar+"</voice></speak>
+//         body: `<speak version='1.0' xml:lang='${lang}'><voice xml:lang='${lang}' xml:gender='Female' name='${name}'>${texto_hablar}</voice></speak>`
+//     })
+//     .then((response) => {
+//         if (response.ok) {
+//             return response.blob();
+//         } else {
+//             throw new Error('Error en la solicitud a la API.');
+//         }
+//     })
+//     .then((blob) => {
+//         const url = URL.createObjectURL(blob);
 
-        // Crea un nuevo elemento de audio
-        const audio = new Audio(url);
+//         // Crea un nuevo elemento de audio
+//         const audio = new Audio(url);
     
-        // Reproduce automáticamente el audio
-        audio.play();
-        texto_de_voz=""
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
+//         // Reproduce automáticamente el audio
+//         audio.play();
+//         texto_de_voz=""
+//     })
+//     .catch((error) => {
+//         console.error('Error:', error);
+//     });
+// }
 
 
 // Deteccion de rostro
