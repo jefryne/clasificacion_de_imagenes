@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from db import crear_registro, leer_registros,top_clasificados
 from pydantic import BaseModel
+from db import aumentar_columna_select
 import uvicorn
 
 
@@ -50,3 +51,7 @@ def clasificados():
         return {"Error":"Ocurrio un error en la base de datos"}
 
 
+@app.get("/aumetar-categoria/{categoria}")
+def aumentar_columna(categoria: str):
+    aumentar_columna_select(categoria)
+    return {"actualizado": "exitoxamente"}

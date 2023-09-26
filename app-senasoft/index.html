@@ -144,19 +144,22 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="row g-4">
-                        <!-- SUBIR IMAGEN DESDE UNA URL-->
-                        <div class="col-lg-12">
+                        <div class="col-6">
+                            <!-- SUBIR IMAGEN DESDE UNA URL-->
                             <h2 class="mb-4">Imagenes alojadas en internet</h2>
                             <label for="">Ingrese la direccion de la imagen (URL)</label>
                             <input type="text" class="form-control" id="direccionImg">
+                        </div>
+                        <div class="col-6">
+                            <!-- SUBIR IMAGEN DESDE LOCALMENTE-->
+                            <h2 class="mb-4">Imagenes alojadas localmente</h2>
+                            <label for="">Subir imagen desde este dispositivo</label>
+                            <input type="file" id="fileInput" accept="image/*">
+                        </div>
+
+                        <div class="col-12">
                             <img src="" alt="" id="image" class="img-fluid mt-4">
                         </div>
-                        <hr>
-                        <!-- SUBIR IMAGEN DESDE LOCALMENTE-->
-                        <h2 class="mb-4">Imagenes alojadas localmente</h2>
-                        <label for="">Subir imagen desde este dispositivo</label>
-                        <input type="file" id="fileInput" accept="image/*">
-                        <button class="btn btn-primary" id="classifyButton">Clasificar</button>
                     </div>
                 </div>
                 <div class="col-lg-12" id="resultIdiomas">

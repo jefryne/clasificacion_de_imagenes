@@ -69,4 +69,25 @@ def top_clasificados():
         return resultados
     except:
         return None
+    
+def aumentar_columna_insert(numero_actual,categoria):
+    numero_incrementado = numero_actual +1
+    try:
+        query = "UPDATE clasificados SET num_analisis = %s WHERE categoria = %s LIMIT 1"
+        values = (numero_incrementado,categoria)
+        cursor.execute(query,values)
+        db.commit()
+        return True
+    except:
+        return None
 
+def aumentar_columna_select(categoria):
+    try:
+        query = "SELECT num_analisis FROM clasificados WHERE categoria = %s LIMIT 1"
+        values = (categoria,)
+        cursor.execute(query,values)
+        resultado = cursor.fetchone()
+        print(resultado)
+        aumentar_columna_insert(resultado[0],categoria)
+    except:
+        return None 

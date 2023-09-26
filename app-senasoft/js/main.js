@@ -115,21 +115,23 @@ function identifyImageURL(imageUrl) {
 
 
 //Usando el endpoint de custom vision para imagen local
-document.getElementById("classifyButton").addEventListener("click", function () {
-    const fileInput = document.getElementById("fileInput");
+const fileInput = document.getElementById("fileInput");
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            image.src = e.target.result;
+            identifyImageFILE();
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+function identifyImageFILE() {
     
-    fileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                image.src = e.target.result;
-            };
-
-            reader.readAsDataURL(file);
-        }
-    });
 
     if (fileInput.files.length === 0) {
         resultado.innerHTML = "Por favor, seleccione una imagen.";
@@ -161,7 +163,7 @@ document.getElementById("classifyButton").addEventListener("click", function () 
     .catch(error => {
         resultado.textContent = "Hubo un error al hacer la solicitud: " + error.message;
     });
-});
+};
 
 
 // Traductor del resultado
