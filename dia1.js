@@ -1,8 +1,8 @@
-idioma_detectado = ""
+let idioma_detectado = "it"
 
 function traducir(texto_traducir, idioma_detectado) {
     
-    fetch("https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to="+((idioma_detectado=="") ? "en": idioma_detectado)+"&to=fr&to=zh",{
+    fetch("https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to="+idioma_detectado+"&to=fr&to=zh",{
         method: "POST",
         headers: {
             "Ocp-Apim-Subscription-Key": "c57f563494ad41df92dfbe31871ad5cc",
