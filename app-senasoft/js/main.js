@@ -154,8 +154,8 @@ function identifyImageFILE() {
     .then(data => {
         console.log(data.predictions[0].tagName);
         let responseFile = data.predictions[0].tagName;
-        resultado.textContent = responseFile;
         traducir(responseFile,idioma_detectado);
+        resultado.textContent = responseFile;
         //aumentardatos(responseFile);
     })
     .catch(error => {
@@ -166,12 +166,12 @@ function identifyImageFILE() {
 
 // Traductor del resultado
 
-function traducir(texto_traducir, idioma_detectado) {
-    
-    fetch("https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to="+idioma_detectado+"&to=fr&to=zh",{
+function traducir(texto_traducir) {
+    let endpoint = "https://servicios-azure.cognitiveservices.azure.com/";
+    fetch(`${endpoint}translate?api-version=3.0&from=es&to=fr&to=en&to=zh-Hans`,{
         method: "POST",
         headers: {
-            "Ocp-Apim-Subscription-Key": "b562ea315899456c9fcde921ce10926b",
+            "Ocp-Apim-Subscription-Key": "c57f563494ad41df92dfbe31871ad5cc",
             "Ocp-Apim-Subscription-Region": "eastus",
             "Content-Type": "application/json"
             
@@ -183,21 +183,7 @@ function traducir(texto_traducir, idioma_detectado) {
         console.log(data[0].translations);
         
         data[0].translations.forEach(idiomas => {
-            
-            // let boton = document.createElement('button');
-
-            // let icono = document.createElement('i');
-            // icono.classList.add('fa-solid fa-volume-high fa-fade');
-
-            // boton.append(icono);
-
-            let resultadoTraducido = document.createElement('h6');
-
-            resultadoTraducido.textContent = `Lenguaje detectado: (${idiomas.to}) = ${idiomas.text}`;
-            resultadoTraducido.classList.add('text-center text-dark');
-            //resultadoTraducido.append(boton);
-
-            resultIdiomas.append(resultadoTraducido);
+            console.log(idiomas);
         });
 
     })
@@ -205,6 +191,7 @@ function traducir(texto_traducir, idioma_detectado) {
         console.log(error);
     })
 }
+
 
 
 // texto a voz
