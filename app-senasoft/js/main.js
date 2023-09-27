@@ -406,16 +406,19 @@ function getAnalisis(img,ul) {
 let direccionImgRostro1 = document.getElementById('direccionImgRostro1');
 let direccionImgRostro2 = document.getElementById('direccionImgRostro2');
 let fileInputRostro3 = document.getElementById('fileInputRostro3');
+let direccionImgRostro4 = document.getElementById('direccionImgRostro4');
+
 // imagenes
 let imgRostro1 = document.getElementById('imgRostro1');
 let imgRostro2 = document.getElementById('imgRostro2');
 let imgRostro3 = document.getElementById('imgRostro3');
+let imgRostro4 = document.getElementById('imgRostro4');
 
 // ul para añadir los objetos detectados
 let ulObjet1 = document.getElementById('objDetec1');
 let ulObjet2 = document.getElementById('objDetec2');
 let ulObjet3 = document.getElementById('objDetec3');
-
+let ulObjet4 = document.getElementById('objDetec4');
 //cargando imagen desde url
 direccionImgRostro1.addEventListener('input',() => {
     imgRostro1.src = direccionImgRostro1.value;
@@ -442,7 +445,10 @@ fileInputRostro3.addEventListener('change', (event) => {
     }
 });
 
-
+direccionImgRostro4.addEventListener('input',() => {
+    imgRostro4.src = direccionImgRostro4.value;
+    getAnalisis(direccionImgRostro2.value,ulObjet4);    
+});
 
 // Deteccion de rostro
 // const drawButton = document.getElementById('drawButton');
