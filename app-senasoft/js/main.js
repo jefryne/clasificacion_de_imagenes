@@ -134,21 +134,25 @@ async function traslator(texto) {
         const result = await response.json();
         console.log(result);
         const respuesta = result[0].translations[1].text;
+        let html_alert = ""
         result[0].translations.forEach(async idioma => {
-            let p = document.createElement('p')
-            let span_1 = document.createElement('span');
-            let span_2 = document.createElement('span');
-            let i = document.createElement('i');
-            i.classList.add("boton_hablar", "fa-solid", "fa-volume-high")
-            span_1.textContent = idioma.to
-            span_1.classList.add("me-2")
-            span_2.textContent = idioma.text
-            span_2.classList.add("me-2")
-            p.append(span_1)
-            p.append(span_2)
-            p.append(i)
-            resultIdiomas.append(p);
+            html_alert += '<p><span>'+idioma.to+'</span><span> '+idioma.text+'</span><i class="boton_hablar fa-solid fa-volume-high"></i></p>' 
         });
+        Swal.fire({
+            title: '<strong>HTML <u>example</u></strong>',
+            icon: 'info',
+            html:
+              '<div>'+html_alert+'</div>',
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText:
+              '<i class="fa fa-thumbs-up"></i> Great!',
+            confirmButtonAriaLabel: 'Thumbs up, great!',
+            cancelButtonText:
+              '<i class="fa fa-thumbs-down"></i>',
+            cancelButtonAriaLabel: 'Thumbs down'
+          })
         
     let iconos_hablar = document.querySelectorAll(".boton_hablar")    
     for (let index = 0; index < iconos_hablar.length; index++) {
