@@ -63,7 +63,9 @@
     
 })(jQuery);
 
-let resultIdiomas = document.getElementById("resultIdiomas")
+let resultIdiomas = document.getElementById("resultIdiomas");
+
+
 
 //Obteniendo el elemento donde se imprime el resultado
 let resultado = document.getElementById('resultado');
@@ -156,7 +158,7 @@ async function traslator(texto) {
         });
         Swal.fire({
             title: '<strong>Traducciones</strong>',
-            icon: 'info',
+            icon: 'success',
             html:
               '<div>'+html_alert+'</div>',
             showCloseButton: true,
@@ -328,9 +330,8 @@ function identifyImageFILE() {
     .then(data => {
         console.log(data.predictions[0].tagName);
         let responseFile = data.predictions[0].tagName;
-        traducir(responseFile);
         resultado.textContent = responseFile;
-        console.log(responseFile);
+        traslator(responseFile);
         aumentardatos(responseFile);
     })
     .catch(error => {
@@ -615,3 +616,46 @@ function aumentardatos(categoria) {
     })
 }
 
+//Boton para limpiar las fotos y el input
+let limpiarDatos1 = document.getElementById('limpiarDatos1');
+let limpiarDatos2 = document.getElementById('limpiarDatos2');
+let limpiarDatos3 = document.getElementById('limpiarDatos3');
+let limpiarDatos4 = document.getElementById('limpiarDatos4');
+let limpiarDatos5 = document.getElementById('limpiarDatos5');
+
+limpiarDatos1.addEventListener('click', () => {
+    image.src = "";
+    direccionImg.value = "";
+    fileInput.value = "";
+    resultado.textContent = "";
+});
+
+
+limpiarDatos2.addEventListener('click', () => {
+    removerHijos(ulObjet1);
+    removerHijos(marcar_caras);
+    imgRostro1.src = "";
+    direccionImgRostro1.value = "";
+});
+
+
+limpiarDatos3.addEventListener('click', () => {
+    removerHijos(ulObjet2);
+    imgRostro2.src = "";
+    direccionImgRostro2.value = "";
+});
+
+
+limpiarDatos4.addEventListener('click', () => {
+    removerHijos(ulObjet3);
+    imgRostro3.src = "";
+    fileInputRostro3.value = "";
+});
+
+
+limpiarDatos5.addEventListener('click', () => {
+    removerHijos(ulObjet4);
+    imgRostro4.src = "";
+    fileInputRostro4.value = "";
+    direccionImgRostro4.value = "";
+});
