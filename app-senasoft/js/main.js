@@ -430,7 +430,6 @@ fileInputRostro3.addEventListener('change', (event) => {
         reader.onload = (e) => {
             imgRostro3.src = e.target.result;
             getDetectionFile(fileInputRostro3,ulObjet3);
-            aumentardatos();
         };
 
         reader.readAsDataURL(file);
