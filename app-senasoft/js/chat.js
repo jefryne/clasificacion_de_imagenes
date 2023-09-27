@@ -24,7 +24,7 @@ let lemguaje = "es-ES"
 boton_modal_bot.addEventListener('click', ()=>{
     let label_saludo = document.createElement('label')
     label_saludo.classList.add("alert", "alert-primary")
-    label_saludo.textContent = "Bienvenido soy el bot charlitos compro y vendo celulares"
+    label_saludo.textContent = "Bienvenido soy el bot Senasoft estoy para ayudarte en lo que necesites"
     chat.append(label_saludo)
     document.addEventListener("keyup", function(event) {  
         if (event.code === 'Enter') {
