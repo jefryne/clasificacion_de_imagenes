@@ -400,7 +400,7 @@ direccionImgRostro1.addEventListener('input',() => {
     imgRostro1.src = direccionImgRostro1.value;
     getDeteccionFace(direccionImgRostro1.value);
     if (direccionImgRostro1.value == '') {
-        deleteMarcas(marcar_caras);
+        removerHijos(marcar_caras);
     }
     //getAnalisis(direccionImgRostro1.value,ulObjet1);
 });
@@ -431,7 +431,7 @@ direccionImgRostro4.addEventListener('input',() => {
 });
 
 // Funcion para quitar las marcas de la caras detectadas
-function deleteMarcas(element) {
+function removerHijos(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);    
     }
@@ -490,6 +490,7 @@ fileInputRostro4.addEventListener('change', (event) => {
 
         reader.onload = (e) => {
             imgRostro4.src = e.target.result;
+            removerHijos(ulObjet4);
             getDetectionFile();
         };
 
@@ -521,8 +522,15 @@ function getDetectionFile() {
         let arrayPredictions = data.predictions;
         arrayPredictions.forEach(elemento => {
             if (elemento.probability > 0.95) {
-                console.log(elemento.probability);
-                console.log(elemento.tagName);
+                const li = document.createElement("li");
+                
+                // Traducir el texto del elemento antes de asignarlo al <li>
+                //const translatedText = await traslator(en,es,element);
+                li.textContent = `${elemento.tagName} - ${elemento.probability}%`;
+                
+                li.classList.add("list-group-item");
+                ulObjet4.appendChild(li);
+
             }
         });
         console.log(data);
