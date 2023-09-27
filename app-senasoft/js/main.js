@@ -242,16 +242,10 @@ direccionImg.addEventListener('input',() => {
     image.src = direccionImg.value;
     identifyImageURL(direccionImg.value);
     if (direccionImg.value == '') {
-        deleteTraduccion(resultIdiomas);
+        removerHijos(resultIdiomas);
     }
 })
 
-
-function deleteTraduccion(element) {
-    while (element.firstChild) {
-        element.removeChild(element.firstChild);
-    }
-}
 
 //Clasificacion por URL
 function identifyImageURL(imageUrl) {
@@ -276,15 +270,10 @@ function identifyImageURL(imageUrl) {
     .then(prediction =>  {
 
         (async () => {
-        
             let responseUrl = prediction.predictions[0].tagName;
             resultado.textContent = responseUrl;
-    
             traslator(responseUrl);
-            
-            //aumentardatos(responseUrl);
-            
-        
+            aumentardatos(responseUrl);
         })();
     })
     .catch(error => {
@@ -342,7 +331,7 @@ function identifyImageFILE() {
         traducir(responseFile);
         resultado.textContent = responseFile;
         console.log(responseFile);
-        //aumentardatos(responseFile);
+        aumentardatos(responseFile);
     })
     .catch(error => {
         resultado.textContent = "Hubo un error al hacer la solicitud: " + error.message;
@@ -418,6 +407,7 @@ let ulObjet4 = document.getElementById('objDetec4');
 direccionImgRostro1.addEventListener('input',() => {
     imgRostro1.src = direccionImgRostro1.value;
     getDeteccionFace(direccionImgRostro1.value);
+    getDetectionURL(direccionImgRostro1.value,ulObjet1);
     if (direccionImgRostro1.value == '') {
         removerHijos(marcar_caras);
     }
@@ -427,7 +417,8 @@ direccionImgRostro1.addEventListener('input',() => {
 //cargando imagen desde url
 direccionImgRostro2.addEventListener('input',() => {
     imgRostro2.src = direccionImgRostro2.value;
-    getAnalisis(direccionImgRostro2.value,ulObjet2);    
+    getDetectionURL(direccionImgRostro2.value,ulObjet2);
+    //getAnalisis(direccionImgRostro2.value,ulObjet2);    
 });
 
 //cargando imagen localmente
@@ -438,15 +429,34 @@ fileInputRostro3.addEventListener('change', (event) => {
 
         reader.onload = (e) => {
             imgRostro3.src = e.target.result;
+            getDetectionFile(fileInputRostro3,ulObjet3);
+            aumentardatos();
         };
 
         reader.readAsDataURL(file);
     }
 });
 
+//Deteccion de Objetos cargando imagen localmente
+fileInputRostro4.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            imgRostro4.src = e.target.result;
+            removerHijos(ulObjet4);
+            getDetectionFile(fileInputRostro4,ulObjet4);
+        };
+        
+        reader.readAsDataURL(file);
+    }
+});
+
 direccionImgRostro4.addEventListener('input',() => {
     imgRostro4.src = direccionImgRostro4.value;
-    //getAnalisis(direccionImgRostro2.value,ulObjet4);    
+    removerHijos(ulObjet4);
+    getDetectionURL(direccionImgRostro4.value,ulObjet4);    
 });
 
 // Funcion para quitar las marcas de la caras detectadas
@@ -494,37 +504,68 @@ function getDeteccionFace(img) {
 }
 // Fin del Deteccion de rostros
 
+
+
+
+
+
 //Deteccion de Objetos por URL
+function getDetectionURL(imageUrl,ul) {
+    const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV2/url";
+    const predictionKey = "b562ea315899456c9fcde921ce10926b";
+    const headers = {
+        'Prediction-Key': predictionKey,
+        'Content-Type': 'application/json'
+    };
+    const body = JSON.stringify({
+        url: imageUrl
+    });
 
+    fetch(predictionUrl, {
+        method: 'POST',
+        headers: headers,
+        body: body
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(prediction =>  {
 
+        (async () => {
+        
+            let arrayPredictions = prediction.predictions;
+            arrayPredictions.forEach(elemento => {
+                if (elemento.probability > 0.95) {
+                    const li = document.createElement("li");
+                    
+                    // Traducir el texto del elemento antes de asignarlo al <li>
+                    //const translatedText = await traslator(en,es,element);
+                    li.textContent = `${elemento.tagName} - ${elemento.probability}%`;
+                    
+                    li.classList.add("list-group-item");
+                    ul.appendChild(li);
+                    aumentardatos(elemento.tagName);
+                }
+            });
+            console.log(prediction);
+            
+        
+        })();
+    })
+    .catch(error => {
+        resultado.textContent = "An error occurred:", error;
+    });
+}
 
 //Deteccion de Objetos cargando imagen localmente
-
-//Usando el endpoint de custom vision para imagen local
-
-fileInputRostro4.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            imgRostro4.src = e.target.result;
-            removerHijos(ulObjet4);
-            getDetectionFile();
-        };
-
-        reader.readAsDataURL(file);
-    }
-});
-
-function getDetectionFile() {
-    if (fileInputRostro4.files.length === 0) {
+function getDetectionFile(fileInputRostro,ul) {
+    if (fileInputRostro.files.length === 0) {
         resultado.innerHTML = "Por favor, seleccione una imagen.";
         return;
     }
     const apiKey = "b562ea315899456c9fcde921ce10926b";
     const endpoint = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV2/image";
-    const file = fileInputRostro4.files[0];
+    const file = fileInputRostro.files[0];
     
     const formData = new FormData();
     formData.append("file", file);
@@ -548,7 +589,8 @@ function getDetectionFile() {
                 li.textContent = `${elemento.tagName} - ${elemento.probability}%`;
                 
                 li.classList.add("list-group-item");
-                ulObjet4.appendChild(li);
+                ul.appendChild(li);
+                aumentardatos(elemento.tagName);
 
             }
         });
