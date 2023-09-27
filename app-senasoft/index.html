@@ -144,26 +144,25 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="row g-4">
-                        <div class="col-6">
-                            <!-- SUBIR IMAGEN DESDE UNA URL-->
+                        <!-- SUBIR IMAGEN DESDE UNA URL-->
+                        <div class="col-lg-12">
                             <h2 class="mb-4">Imagenes alojadas en internet</h2>
                             <label for="">Ingrese la direccion de la imagen (URL)</label>
                             <input type="text" class="form-control" id="direccionImg">
-                        </div>
-                        <div class="col-6">
-                            <!-- SUBIR IMAGEN DESDE LOCALMENTE-->
-                            <h2 class="mb-4">Imagenes alojadas localmente</h2>
-                            <label for="">Subir imagen desde este dispositivo</label>
-                            <input type="file" class="form-control-sm form-control"  id="fileInput" accept="image/*">
-                        </div>
-
-                        <div class="col-12">
                             <img src="" alt="" id="image" class="img-fluid mt-4">
                         </div>
+                        <hr>
+                        <!-- SUBIR IMAGEN DESDE LOCALMENTE-->
+                        <h2 class="mb-4">Imagenes alojadas localmente</h2>
+                        <label for="">Subir imagen desde este dispositivo</label>
+                        <input type="file" id="fileInput" accept="image/*">
+                        <button class="btn btn-primary" id="classifyButton">Clasificar</button>
                     </div>
                 </div>
                 <div class="col-lg-12" id="resultIdiomas">
-                    <h6 id="resultado" class="text-center"></h6>
+                    <h6 id="resultado" class="text-center">
+                        
+                    </h6>
                 </div>
             </div>
 
@@ -171,28 +170,43 @@
     </div>
     <!-- Service End -->
 
-
+        <!-- Team Start -->
+       
+        <div class="container mt-5 mb-5">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Correo</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider" id="tabla_body">
+                </tbody>
+            </table>
+        </div>
+        <!-- Team End -->
 
     <!-- Feature Start -->
     <div class="container-fluid bg-primary feature pt-5">
         <div class="container pt-5">
             <div class="row g-5">
                 <div class="col-lg-6 align-self-center mb-md-5 pb-md-5 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="btn btn-sm border rounded-pill text-white px-3 mb-3">Why Choose Us</div>
-                    <h1 class="text-white mb-4">We're Best in AI Industry with 10 Years of Experience</h1>
-                    <p class="text-light mb-4">Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed
-                        stet no labore lorem sit. Sanctus clita duo justo et tempor</p>
+                    <div class="btn btn-sm border rounded-pill text-white px-3 mb-3">Por qué elegirnos</div>
+                    <h1 class="text-white mb-4">Somos los mejores en el sector de la IA con 10 años de experiencia</h1>
+                    <p class="text-light mb-4">Somos un citio web hecho por profesionales muy buenos y reconocidos en el area de Inteligencia artificial</p>
                     <div class="d-flex align-items-center text-white mb-3">
                         <div class="btn-sm-square bg-white text-primary rounded-circle me-3">
                             <i class="fa fa-check"></i>
                         </div>
-                        <span>Diam dolor diam ipsum et tempor sit</span>
+                        <span>Tenemos atencion al cliente las 24 horas</span>
                     </div>
                     <div class="d-flex align-items-center text-white mb-3">
                         <div class="btn-sm-square bg-white text-primary rounded-circle me-3">
                             <i class="fa fa-check"></i>
                         </div>
-                        <span>Diam dolor diam ipsum et tempor sit</span>
+                        <span>  </span>
                     </div>
                     <div class="d-flex align-items-center text-white mb-3">
                         <div class="btn-sm-square bg-white text-primary rounded-circle me-3">
@@ -419,102 +433,7 @@
     <!-- FAQs Start -->
 
 
-    <!-- Team Start -->
-    <div class="container-fluid bg-light py-5">
-        <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="btn btn-sm border rounded-pill text-primary px-3 mb-3">Our Team</div>
-                    <h1 class="mb-4">Meet Our Experienced Team Members</h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
-                        amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus
-                        clita duo justo et tempor eirmod magna dolore erat amet</p>
-                    <a class="btn btn-primary rounded-pill px-4" href="">Read More</a>
-                </div>
-                <div class="col-lg-7">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="row g-4">
-                                <div class="col-12 wow fadeIn" data-wow-delay="0.1s">
-                                    <div class="team-item bg-white text-center rounded p-4 pt-0">
-                                        <img class="img-fluid rounded-circle p-4" src="img/team-1.jpg" alt="">
-                                        <h5 class="mb-0">Boris Johnson</h5>
-                                        <small>Founder & CEO</small>
-                                        <div class="d-flex justify-content-center mt-3">
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-facebook-f"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-twitter"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-instagram"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-linkedin-in"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 wow fadeIn" data-wow-delay="0.5s">
-                                    <div class="team-item bg-white text-center rounded p-4 pt-0">
-                                        <img class="img-fluid rounded-circle p-4" src="img/team-2.jpg" alt="">
-                                        <h5 class="mb-0">Adam Crew</h5>
-                                        <small>Executive Manager</small>
-                                        <div class="d-flex justify-content-center mt-3">
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-facebook-f"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-twitter"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-instagram"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-linkedin-in"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 pt-md-4">
-                            <div class="row g-4">
-                                <div class="col-12 wow fadeIn" data-wow-delay="0.3s">
-                                    <div class="team-item bg-white text-center rounded p-4 pt-0">
-                                        <img class="img-fluid rounded-circle p-4" src="img/team-3.jpg" alt="">
-                                        <h5 class="mb-0">Kate Winslet</h5>
-                                        <small>Co Founder</small>
-                                        <div class="d-flex justify-content-center mt-3">
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-facebook-f"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-twitter"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-instagram"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-linkedin-in"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 wow fadeIn" data-wow-delay="0.7s">
-                                    <div class="team-item bg-white text-center rounded p-4 pt-0">
-                                        <img class="img-fluid rounded-circle p-4" src="img/team-4.jpg" alt="">
-                                        <h5 class="mb-0">Cody Gardner</h5>
-                                        <small>Project Manager</small>
-                                        <div class="d-flex justify-content-center mt-3">
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-facebook-f"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-twitter"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-instagram"></i></a>
-                                            <a class="btn btn-square btn-primary m-1" href=""><i
-                                                    class="fab fa-linkedin-in"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Team End -->
+
 
 
     <!-- Testimonial Start -->
@@ -715,9 +634,10 @@
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/counterup/counterup.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
 
     <!-- Template Javascript -->
-
+    <script src="js/personas_crud.js"></script>
     <script src="js/main.js"></script>
     <script src="js/chat.js"></script>
 </body>

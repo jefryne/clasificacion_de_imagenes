@@ -63,14 +63,77 @@
     
 })(jQuery);
 
-//Idioma predeterminado
-let idioma_detectado = "it"
 
 //Obteniendo el elemento donde se imprime el resultado
 let resultado = document.getElementById('resultado');
 
 // Obteniendo el elmento para agregar los resultados en varios idiomas
 let resultIdiomas = document.getElementById('resultIdiomas');
+
+//Consumo del traductor
+function traducir(texto_traducir) {
+    
+    fetch("https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans",{
+        method: "POST",
+        headers: {
+            "Ocp-Apim-Subscription-Key": "c57f563494ad41df92dfbe31871ad5cc",
+            "Ocp-Apim-Subscription-Region": "eastus",
+            "Content-Type": "application/json"
+            
+        },
+        body: JSON.stringify([{'text': texto_traducir}]) 
+    })
+    .then(respuesta => respuesta.json())
+    .then(data =>{
+        console.log(data[0].translations);
+        data[0].translations.forEach(idioma => {
+            let h6Result = document.createElement('h6');
+            h6Result.classList.add('text-center');
+            h6Result.textContent =  `idioma:(${idioma.to}) = ${idioma.text}`;
+            resultIdiomas.append(h6Result);
+            console.log(idioma.text);
+        });
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
+
+
+
+async function traslator(texto) {
+    const key = 'c57f563494ad41df92dfbe31871ad5cc';
+    const location = 'eastus';
+    const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans';
+    const headers = {
+        "Ocp-Apim-Subscription-Key" : key,
+        "Ocp-Apim-Subscription-Region" : location,
+        "Content-Type" : "application/json"
+    };
+    const body = JSON.stringify([{
+        'text' : texto
+    }]);
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: headers,
+            body: body
+        });
+        
+        const result = await response.json();
+        //const respuesta = result[0].translations[1].text;
+        result[0].translations.forEach(async idioma => {
+            let h6Result = document.createElement('h6');
+            h6Result.classList.add('text-center');
+            h6Result.textContent =  `idioma:(${idioma.to}) = ${idioma.text}`;
+            resultIdiomas.append(h6Result);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 // Usando el endpoint de custom vision subiendo imagen desde una URL
 let direccionImg = document.getElementById('direccionImg');
@@ -79,7 +142,16 @@ let image = document.getElementById('image');
 direccionImg.addEventListener('input',() => {
     image.src = direccionImg.value;
     identifyImageURL(direccionImg.value);
+    if (direccionImg.value == '') {
+        deleteTraduccion(resultIdiomas);
+    }
 })
+
+function deleteTraduccion(element) {
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+}
 
 function identifyImageURL(imageUrl) {
     const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/24dc9b83-0ec2-4a5d-8609-bf2e6c0ddd5a/classify/iterations/modelov2/url";
@@ -100,16 +172,25 @@ function identifyImageURL(imageUrl) {
     .then(response => {
         return response.json();
     })
-    .then(prediction => {
-        let responseUrl = prediction.predictions[0].tagName;
-        resultado.textContent = responseUrl;
-        traducir(responseUrl,idioma_detectado);
-        //aumentardatos(responseUrl);
+    .then(prediction =>  {
+
+        (async () => {
+        
+            let responseUrl = prediction.predictions[0].tagName;
+            resultado.textContent = responseUrl;
+    
+            traslator(responseUrl);
+            
+            //aumentardatos(responseUrl);
+            
+        
+        })();
     })
     .catch(error => {
         resultado.textContent = "An error occurred:", error;
     });
 }
+
 
 
 //Usando el endpoint de custom vision para imagen local
@@ -127,6 +208,9 @@ fileInput.addEventListener('change', (event) => {
         reader.readAsDataURL(file);
     }
 });
+
+
+
 
 function identifyImageFILE() {
     
@@ -154,8 +238,9 @@ function identifyImageFILE() {
     .then(data => {
         console.log(data.predictions[0].tagName);
         let responseFile = data.predictions[0].tagName;
-        traducir(responseFile,idioma_detectado);
+        traducir(responseFile);
         resultado.textContent = responseFile;
+        console.log(responseFile);
         //aumentardatos(responseFile);
     })
     .catch(error => {
@@ -166,32 +251,8 @@ function identifyImageFILE() {
 
 // Traductor del resultado
 
-function traducir(texto_traducir) {
-    let endpoint = "https://servicios-azure.cognitiveservices.azure.com/";
-    fetch(`${endpoint}translate?api-version=3.0&from=es&to=fr&to=en&to=zh-Hans`,{
-        method: "POST",
-        headers: {
-            "Ocp-Apim-Subscription-Key": "c57f563494ad41df92dfbe31871ad5cc",
-            "Ocp-Apim-Subscription-Region": "eastus",
-            "Content-Type": "application/json"
-            
-        },
-        body: JSON.stringify([{'text': texto_traducir}]) 
-    })
-    .then(respuesta => respuesta.json())
-    .then(data =>{
-        console.log(data[0].translations);
-        
-        data[0].translations.forEach(idiomas => {
-            console.log(idiomas);
-        });
 
-    })
-    .catch(error => {
-        console.log(error);
-    })
-}
-
+//traducir("hola");
 
 
 // texto a voz

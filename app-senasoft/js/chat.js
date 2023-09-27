@@ -1,5 +1,3 @@
-
-
 let user_input = document.getElementById("user_input")
 let boton_bot = document.getElementById("boton_bot")
 let chat = document.getElementById("chat")
@@ -9,7 +7,6 @@ let boton_microfono = document.getElementById("boton_microfono")
 let texto_de_voz = ""
 idioma_detectado = "es"
 texto_labels = "Nombre Usuario--Telefono Usuario--Correo electronico"
-// traerRegistros()
 let formular_pregunta_saludo = ""
 let formular_pregunta = ""
 let correo = " "
@@ -91,6 +88,7 @@ function peticionDeIntenciones(texto_intencio_detectar) {
         formular_pregunta = ""
         console.log(data_intenciones);
         intencion = data_intenciones.result.prediction.topIntent
+        console.log("winder");
         console.log(intencion);
         
         data_intenciones.result.prediction.entities.forEach(element => {
@@ -106,23 +104,26 @@ function peticionDeIntenciones(texto_intencio_detectar) {
                 console.log(formular_pregunta_saludo);
                 peticionPreguntasrespuestas(formular_pregunta_saludo)
             }
-            if(element.category == "Correo" && correo == " "){
+            if(element.category == "Correo"){
                 correo += element.category
                 correo_texto = element.text
             }
-            if(element.category == "NumeroTelefono" && telefono == " "){
+            if(element.category == "NumeroTelefono"){
                 telefono += element.category
                 telefono_texto = element.text
             }
-            if(element.category == "NombreUsuario" && nombreUsuario==" "){
+            if(element.category == "NombreUsuario"){
                 entidad_nombre = element.category
                 nombreUsuario = element.text
             }
             
             formular_pregunta = intencion+entidad_nombre+telefono+correo
+            console.log("otro winder");
             console.log(formular_pregunta);
         });
         if(formular_pregunta_saludo == ""){
+            console.log("por aqui");
+            console.log(formular_pregunta);
             peticionPreguntasrespuestas(formular_pregunta)
         }
          
@@ -134,6 +135,8 @@ function peticionDeIntenciones(texto_intencio_detectar) {
 
 
 function peticionPreguntasrespuestas(pregunta) {
+    console.log("preguntas");
+    console.log(pregunta);
     let data_preguntas_respuestas = {
         "top":3,
         "question":pregunta,
@@ -195,42 +198,7 @@ function crearRegistros(nombre_usuario,telefono_texto,correo_texto) {
 }
 
 
-function traerRegistros() {
-    fetch("http://127.0.0.1:8000/usuarios"
-    )
-    .then(respuesta => respuesta.json())
-    .then(data =>{
-        console.log(data.registros);
-        let htmlCartasString = ""
-        data.registros.forEach(element => {
-            htmlCartasString += `<div class="col-lg-4">
-                                    <div class="bg-light rounded">
-                                        <div class="border-bottom p-4 mb-4">
-                                            <h4 class="text-primary-gradient mb-1">Registro ID: ${element[0]}</h4>
-                                            <span>Powerful & Awesome Features</span>
-                                        </div>
-                                        <div class="p-4 pt-0">
-                                            <h1 class="mb-3">
-                                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>14.99<small
-                                                    class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
-                                            </h1>
-                                            <div class="d-flex justify-content-between mb-3"><span>${element[1]}</span><i class="fa fa-check text-primary-gradient pt-1"></i></div>
-                                            <div class="d-flex justify-content-between mb-3"><span>${element[2]}</span><i class="fa fa-check text-primary-gradient pt-1"></i></div>
-                                            <div class="d-flex justify-content-between mb-3"><span>${element[3]}</span><i class="fa fa-check text-primary-gradient pt-1"></i></div>
-                                            <div class="d-flex justify-content-between mb-2"><span>${element[4]}</span><i class="fa fa-check text-primary-gradient pt-1"></i></div>
-                                            <div class="d-flex justify-content-between mb-2"><span>${element[5]}</span><i class="fa fa-check text-primary-gradient pt-1"></i></div>
-                                            <a href="" class="btn btn-primary-gradient rounded-pill py-2 px-4 mt-4">Get Started</a>
-                                        </div>
-                                    </div>
-                                </div>`
-        });
-        cartas_registros.innerHTML = htmlCartasString
-    })
-    .catch(error =>{
-        console.log(error);
-    })
 
-}
 
 function hablar(texto_hablar, idioma_hablar) {
     const apiUrl = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1'; // Reemplaza con la URL correcta
@@ -273,6 +241,10 @@ function hablar(texto_hablar, idioma_hablar) {
             
             
         }
+        if(intencion == "Estadisticas"){
+            top_clasificados()
+        }
+
         
     })
     .catch((error) => {
@@ -436,3 +408,36 @@ document.getElementById('boton_microfono_end').addEventListener('click', () => {
     document.getElementById('boton_microfono_end').style.display = 'none';
     document.getElementById('boton_microfono_star').style.display = 'block';
 });
+
+
+function top_clasificados() {
+    fetch("http://127.0.0.1:8000/top-clasificados")
+    .then(res => res.json())
+    .then(data =>{
+        let label_container = document.createElement("div");
+        label_container.classList.add("alert", "alert-secondary", "text-center")
+        let icono = document.createElement("i");
+        icono.classList.add("fa-solid","fa-ranking-star")
+        let label_chat_estadisticas_icono = document.createElement("div"); 
+        label_chat_estadisticas_icono.classList.add("alert", "alert-primary", "text-center")
+        label_chat_estadisticas_icono.append(icono)
+        let label_chat_estadisticas_1 = document.createElement("div");
+        label_chat_estadisticas_1.classList.add("alert", "alert-primary")
+        let label_chat_estadisticas_2 = document.createElement("div");
+        label_chat_estadisticas_2.classList.add("alert", "alert-primary")
+        let label_chat_estadisticas_3 = document.createElement("div");
+        label_chat_estadisticas_3.classList.add("alert", "alert-primary")
+        label_chat_estadisticas_1.textContent += data.clasificados[0][0]+" - Cant:"+data.clasificados[0][1]
+        label_chat_estadisticas_2.textContent += data.clasificados[1][0]+" - Cant:"+data.clasificados[1][1]
+        label_chat_estadisticas_3.textContent += data.clasificados[2][0]+" - Cant:"+data.clasificados[2][1]
+        label_container.append(label_chat_estadisticas_icono)
+        label_container.append(label_chat_estadisticas_1)
+        label_container.append(label_chat_estadisticas_2)
+        label_container.append(label_chat_estadisticas_3)
+        chat.append(label_container)
+        console.log(data.clasificados[0]);
+    })
+    .catch(error =>{
+        console.log(error);
+    })
+}
