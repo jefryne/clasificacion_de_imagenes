@@ -110,7 +110,7 @@ function hablar_imagen(acento,lemguaje,texto_hablar) {
     });
 }
 
-
+// Servicio de Traduccion y voz
 async function traslator(texto) {
     const key = 'c57f563494ad41df92dfbe31871ad5cc';
     const location = 'eastus';
@@ -209,42 +209,6 @@ async function traslator(texto) {
         console.log(error);
     }
 }
-//Consumo del traductor
-
-
-
-// async function traslator(texto) {
-//     const key = 'c57f563494ad41df92dfbe31871ad5cc';
-//     const location = 'eastus';
-//     const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans';
-//     const headers = {
-//         "Ocp-Apim-Subscription-Key" : key,
-//         "Ocp-Apim-Subscription-Region" : location,
-//         "Content-Type" : "application/json"
-//     };
-//     const body = JSON.stringify([{
-//         'text' : texto
-//     }]);
-
-//     try {
-//         const response = await fetch(endpoint, {
-//             method: 'POST',
-//             headers: headers,
-//             body: body
-//         });
-        
-//         const result = await response.json();
-//         //const respuesta = result[0].translations[1].text;
-//         result[0].translations.forEach(async idioma => {
-//             let h6Result = document.createElement('h6');
-//             h6Result.classList.add('text-center');
-//             h6Result.textContent =  `idioma:(${idioma.to}) = ${idioma.text}`;
-//             resultIdiomas.append(h6Result);
-//         });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
 
 // Usando el endpoint de custom vision subiendo imagen desde una URL
@@ -259,12 +223,14 @@ direccionImg.addEventListener('input',() => {
     }
 })
 
+
 function deleteTraduccion(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
 }
 
+//Clasificacion por URL
 function identifyImageURL(imageUrl) {
     const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/24dc9b83-0ec2-4a5d-8609-bf2e6c0ddd5a/classify/iterations/modelov2/url";
     const predictionKey = "b562ea315899456c9fcde921ce10926b";
@@ -323,7 +289,7 @@ fileInput.addEventListener('change', (event) => {
 
 
 
-
+// Claficacion cargando localmente
 function identifyImageFILE() {
     
 
@@ -402,10 +368,16 @@ function getAnalisis(img,ul) {
 
 
 // Parte 2 del reto deteccion de rostros y objetos
+
+
+let imageContainer = document.getElementById('image-container');
+let marcar_caras = document.getElementById('marcar_caras');
+
 // inputs
 let direccionImgRostro1 = document.getElementById('direccionImgRostro1');
 let direccionImgRostro2 = document.getElementById('direccionImgRostro2');
 let fileInputRostro3 = document.getElementById('fileInputRostro3');
+let fileInputRostro4 = document.getElementById('fileInputRostro4');
 let direccionImgRostro4 = document.getElementById('direccionImgRostro4');
 
 // imagenes
@@ -422,7 +394,11 @@ let ulObjet4 = document.getElementById('objDetec4');
 //cargando imagen desde url
 direccionImgRostro1.addEventListener('input',() => {
     imgRostro1.src = direccionImgRostro1.value;
-    getAnalisis(direccionImgRostro1.value,ulObjet1);
+    getDeteccionFace(direccionImgRostro1.value);
+    if (direccionImgRostro1.value == '') {
+        deleteMarcas(marcar_caras);
+    }
+    //getAnalisis(direccionImgRostro1.value,ulObjet1);
 });
 
 //cargando imagen desde url
@@ -447,88 +423,115 @@ fileInputRostro3.addEventListener('change', (event) => {
 
 direccionImgRostro4.addEventListener('input',() => {
     imgRostro4.src = direccionImgRostro4.value;
-    getAnalisis(direccionImgRostro2.value,ulObjet4);    
+    //getAnalisis(direccionImgRostro2.value,ulObjet4);    
 });
 
-// Deteccion de rostro
-// const drawButton = document.getElementById('drawButton');
-// const imageRostro = document.getElementById('imageRostro'); 
-// const line = document.getElementById('line');
-// const leftInput = document.getElementById('left');
-// const topInput = document.getElementById('top');
-// const widthInput = document.getElementById('width');
-// const heightInput = document.getElementById('height');
-// const imageUrlInput = document.getElementById('imageUrl');
-// const deleteUrl = document.getElementById('deleteUrl');
-// const container_marcas = document.getElementById('marcar_caras');
+// Funcion para quitar las marcas de la caras detectadas
+function deleteMarcas(element) {
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);    
+    }
+}
+// Funcion para consumir el API del recurso
+function getDeteccionFace(img) {
+    const key = "281022dafc984cb096a3256c20fc212e";    
+    const endpoint = "https://face-adso.cognitiveservices.azure.com/";
 
-//Cuando le de click al boton start
-// drawButton.addEventListener('click', () => {
-//     const left = parseInt(leftInput.value);    
-//     const top = parseInt(topInput.value);
-//     const width = parseInt(widthInput.value);
-//     const height = parseInt(heightInput.value);
-//     let img = imageUrlInput.value;
-//     getDeteccion(img);
-// });
-//Cuando le de click al boton X
-// deleteUrl.addEventListener('click',() =>{
-//     imageUrlInput.value = '';    
-//     imageRostro.src = imageUrlInput;
-//     deleteMarcas(container_marcas);
-// });
-//Cuando ingrese la URL de la imagen cargue de una vez la imagen
-// imageUrlInput.addEventListener('input', () => {
-//     imageRostro.src = imageUrlInput.value;    
-//     if (imageUrlInput.value == '') {
-//         deleteMarcas(container_marcas);    
-//     }
-// });
-//Funcion para quitar las marcas de la caras detectadas
-// function deleteMarcas(element) {
-//     while (element.firstChild) {
-//         element.removeChild(element.firstChild);    
-//     }
-// }
-//Funcion para consumir el API del recurso
-// function getDeteccion(img) {
-//     const key = "281022dafc984cb096a3256c20fc212e";    
-//     const endpoint = "https://face-adso.cognitiveservices.azure.com/";
+    const headers = {
+        "Ocp-Apim-Subscription-Key": key,    
+        "Content-Type": "application/json"
+    };
 
-//     const headers = {
-//         "Ocp-Apim-Subscription-Key": key,    
-//         "Content-Type": "application/json"
-//     };
+    const body = JSON.stringify({ url: img });
 
-//     const body = JSON.stringify({ url: img });
+    console.log("Analyzing image...\n");
 
-//     console.log("Analyzing image...\n");
+    fetch(`${endpoint}/face/v1.0/detect?detectionModel=detection_01`, {
+        method: 'POST',    
+        headers: headers,
+        body: body
+    })
+        .then(response => response.json())
+        .then(result => {
+            const analysis = result;    
+            console.log(result);
+            analysis.forEach(face => {
+                console.log(`Face location: ${JSON.stringify(face.faceRectangle)}\n`);    
+                let newDiv = document.createElement('div');
+                newDiv.classList.add('position-absolute');
+                newDiv.style.left = `${(face.faceRectangle.left / imgRostro1.naturalWidth) * 100}%`;
+                newDiv.style.top = `${(face.faceRectangle.top / imgRostro1.naturalHeight) * 100}%`;
+                newDiv.style.width = `${(face.faceRectangle.width / imgRostro1.naturalWidth) * 100}%`;
+                newDiv.style.height = `${(face.faceRectangle.height / imgRostro1.naturalHeight) * 100}%`;
+                newDiv.style.border = "2px solid red";
+                marcar_caras.appendChild(newDiv);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+// Fin del Deteccion de rostros
 
-//     fetch(`${endpoint}/face/v1.0/detect?detectionModel=detection_01`, {
-//         method: 'POST',    
-//         headers: headers,
-//         body: body
-//     })
-//         .then(response => response.json())
-//         .then(result => {
-//             const analysis = result;    
-//             console.log(result);
-//             analysis.forEach(face => {
-//                 console.log(`Face location: ${JSON.stringify(face.faceRectangle)}\n`);    
-//                 let newDiv = document.createElement('div');
-//                 newDiv.classList.add('position-absolute');
-//                 newDiv.style.left = `${(face.faceRectangle.left / imageRostro.naturalWidth) * 50}%`;
-//                 newDiv.style.top = `${(face.faceRectangle.top / imageRostro.naturalHeight) * 100}%`;
-//                 newDiv.style.width = `${(face.faceRectangle.width / imageRostro.naturalWidth) * 50}%`;
-//                 newDiv.style.height = `${(face.faceRectangle.height / imageRostro.naturalHeight) * 100}%`;
-//                 newDiv.style.border = "2px solid red";
-//                 container_marcas.appendChild(newDiv);
-//             });
-//         })
-//         .catch(error => console.error('Error:', error));
-// }
+//Deteccion de Objetos por URL
 
 
+
+//Deteccion de Objetos cargando imagen localmente
+
+//Usando el endpoint de custom vision para imagen local
+
+fileInputRostro4.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            imgRostro4.src = e.target.result;
+            getDetectionFile();
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+function getDetectionFile() {
+    if (fileInputRostro4.files.length === 0) {
+        resultado.innerHTML = "Por favor, seleccione una imagen.";
+        return;
+    }
+    const apiKey = "b562ea315899456c9fcde921ce10926b";
+    const endpoint = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV2/image";
+    const file = fileInputRostro4.files[0];
+    
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    fetch(endpoint, {
+        method: "POST",
+        headers: {
+            "Prediction-Key": apiKey,
+        },
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        let arrayPredictions = data.predictions;
+        arrayPredictions.forEach(elemento => {
+            if (elemento.probability > 0.95) {
+                console.log(elemento.probability);
+                console.log(elemento.tagName);
+            }
+        });
+        console.log(data);
+    })
+    .catch(error => {
+        resultado.textContent = "Hubo un error al hacer la solicitud: " + error.message;
+    });
+    
+}
+
+
+
+//Funcion para aumentar el conteo de el objeto que se clasifica
 function aumentardatos(categoria) {
     fetch(`http://127.0.0.1:8000/aumetar-categoria/${categoria}`)
     .then(res => res.json())
