@@ -402,11 +402,6 @@ function getAnalisis(img,ul) {
 
 
 // Parte 2 del reto deteccion de rostros y objetos
-
-
-let imageContainer = document.getElementById('image-container');
-let marcar_caras = document.getElementById('marcar_caras');
-
 // inputs
 let direccionImgRostro1 = document.getElementById('direccionImgRostro1');
 let direccionImgRostro2 = document.getElementById('direccionImgRostro2');
@@ -427,11 +422,7 @@ let ulObjet4 = document.getElementById('objDetec4');
 //cargando imagen desde url
 direccionImgRostro1.addEventListener('input',() => {
     imgRostro1.src = direccionImgRostro1.value;
-    getDeteccionFace(direccionImgRostro1.value);
-    if (direccionImgRostro1.value == '') {
-        deleteMarcas(marcar_caras);
-    }
-    //getAnalisis(direccionImgRostro1.value,ulObjet1);
+    getAnalisis(direccionImgRostro1.value,ulObjet1);
 });
 
 //cargando imagen desde url
@@ -459,49 +450,83 @@ direccionImgRostro4.addEventListener('input',() => {
     getAnalisis(direccionImgRostro2.value,ulObjet4);    
 });
 
-// Funcion para quitar las marcas de la caras detectadas
-function deleteMarcas(element) {
-    while (element.firstChild) {
-        element.removeChild(element.firstChild);    
-    }
-}
-// Funcion para consumir el API del recurso
-function getDeteccionFace(img) {
-    const key = "281022dafc984cb096a3256c20fc212e";    
-    const endpoint = "https://face-adso.cognitiveservices.azure.com/";
+// Deteccion de rostro
+// const drawButton = document.getElementById('drawButton');
+// const imageRostro = document.getElementById('imageRostro'); 
+// const line = document.getElementById('line');
+// const leftInput = document.getElementById('left');
+// const topInput = document.getElementById('top');
+// const widthInput = document.getElementById('width');
+// const heightInput = document.getElementById('height');
+// const imageUrlInput = document.getElementById('imageUrl');
+// const deleteUrl = document.getElementById('deleteUrl');
+// const container_marcas = document.getElementById('marcar_caras');
 
-    const headers = {
-        "Ocp-Apim-Subscription-Key": key,    
-        "Content-Type": "application/json"
-    };
+//Cuando le de click al boton start
+// drawButton.addEventListener('click', () => {
+//     const left = parseInt(leftInput.value);    
+//     const top = parseInt(topInput.value);
+//     const width = parseInt(widthInput.value);
+//     const height = parseInt(heightInput.value);
+//     let img = imageUrlInput.value;
+//     getDeteccion(img);
+// });
+//Cuando le de click al boton X
+// deleteUrl.addEventListener('click',() =>{
+//     imageUrlInput.value = '';    
+//     imageRostro.src = imageUrlInput;
+//     deleteMarcas(container_marcas);
+// });
+//Cuando ingrese la URL de la imagen cargue de una vez la imagen
+// imageUrlInput.addEventListener('input', () => {
+//     imageRostro.src = imageUrlInput.value;    
+//     if (imageUrlInput.value == '') {
+//         deleteMarcas(container_marcas);    
+//     }
+// });
+//Funcion para quitar las marcas de la caras detectadas
+// function deleteMarcas(element) {
+//     while (element.firstChild) {
+//         element.removeChild(element.firstChild);    
+//     }
+// }
+//Funcion para consumir el API del recurso
+// function getDeteccion(img) {
+//     const key = "281022dafc984cb096a3256c20fc212e";    
+//     const endpoint = "https://face-adso.cognitiveservices.azure.com/";
 
-    const body = JSON.stringify({ url: img });
+//     const headers = {
+//         "Ocp-Apim-Subscription-Key": key,    
+//         "Content-Type": "application/json"
+//     };
 
-    console.log("Analyzing image...\n");
+//     const body = JSON.stringify({ url: img });
 
-    fetch(`${endpoint}/face/v1.0/detect?detectionModel=detection_01`, {
-        method: 'POST',    
-        headers: headers,
-        body: body
-    })
-        .then(response => response.json())
-        .then(result => {
-            const analysis = result;    
-            console.log(result);
-            analysis.forEach(face => {
-                console.log(`Face location: ${JSON.stringify(face.faceRectangle)}\n`);    
-                let newDiv = document.createElement('div');
-                newDiv.classList.add('position-absolute');
-                newDiv.style.left = `${(face.faceRectangle.left / imgRostro1.naturalWidth) * 100}%`;
-                newDiv.style.top = `${(face.faceRectangle.top / imgRostro1.naturalHeight) * 100}%`;
-                newDiv.style.width = `${(face.faceRectangle.width / imgRostro1.naturalWidth) * 100}%`;
-                newDiv.style.height = `${(face.faceRectangle.height / imgRostro1.naturalHeight) * 100}%`;
-                newDiv.style.border = "2px solid red";
-                marcar_caras.appendChild(newDiv);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
+//     console.log("Analyzing image...\n");
+
+//     fetch(`${endpoint}/face/v1.0/detect?detectionModel=detection_01`, {
+//         method: 'POST',    
+//         headers: headers,
+//         body: body
+//     })
+//         .then(response => response.json())
+//         .then(result => {
+//             const analysis = result;    
+//             console.log(result);
+//             analysis.forEach(face => {
+//                 console.log(`Face location: ${JSON.stringify(face.faceRectangle)}\n`);    
+//                 let newDiv = document.createElement('div');
+//                 newDiv.classList.add('position-absolute');
+//                 newDiv.style.left = `${(face.faceRectangle.left / imageRostro.naturalWidth) * 50}%`;
+//                 newDiv.style.top = `${(face.faceRectangle.top / imageRostro.naturalHeight) * 100}%`;
+//                 newDiv.style.width = `${(face.faceRectangle.width / imageRostro.naturalWidth) * 50}%`;
+//                 newDiv.style.height = `${(face.faceRectangle.height / imageRostro.naturalHeight) * 100}%`;
+//                 newDiv.style.border = "2px solid red";
+//                 container_marcas.appendChild(newDiv);
+//             });
+//         })
+//         .catch(error => console.error('Error:', error));
+// }
 
 
 function aumentardatos(categoria) {

@@ -90,44 +90,56 @@ function peticionDeIntenciones(texto_intencio_detectar) {
         formular_pregunta = ""
         console.log(data_intenciones);
         intencion = data_intenciones.result.prediction.topIntent
-        console.log("winder");
-        console.log(intencion);
-        
-        data_intenciones.result.prediction.entities.forEach(element => {
-            if(element.category == "Saludo"){
-                formular_pregunta_saludo = "Saludo"
-                if (element.text == "buenos dias") {
-                    formular_pregunta_saludo += " buenos dias"
-                }else if(element.text == "Buenas tardes"){
-                    formular_pregunta_saludo += " Buenas tardes"
-                }else if(element.text == "hola"){
-                    formular_pregunta_saludo += " hola"
-                }
-                console.log(formular_pregunta_saludo);
-                peticionPreguntasrespuestas(formular_pregunta_saludo)
-            }
-            if(element.category == "Correo"){
-                correo += element.category
-                correo_texto = element.text
-            }
-            if(element.category == "NumeroTelefono"){
-                telefono += element.category
-                telefono_texto = element.text
-            }
-            if(element.category == "NombreUsuario"){
-                entidad_nombre = element.category
-                nombreUsuario = element.text
-            }
+        if(intencion == "Eliminar"){
             
-            formular_pregunta = intencion+entidad_nombre+telefono+correo
-            console.log("otro winder");
-            console.log(formular_pregunta);
-        });
-        if(formular_pregunta_saludo == ""){
-            console.log("por aqui");
-            console.log(formular_pregunta);
-            peticionPreguntasrespuestas(formular_pregunta)
+            data_intenciones.result.prediction.entities.forEach(element => {
+                if(element.category == "id"){
+                    eliminar_usuario(element.text)
+                    return
+                }
+            });
+
+        }else{
+            console.log("winder");
+            console.log(intencion);
+            
+            data_intenciones.result.prediction.entities.forEach(element => {
+                if(element.category == "Saludo"){
+                    formular_pregunta_saludo = "Saludo"
+                    if (element.text == "buenos dias") {
+                        formular_pregunta_saludo += " buenos dias"
+                    }else if(element.text == "Buenas tardes"){
+                        formular_pregunta_saludo += " Buenas tardes"
+                    }else if(element.text == "hola"){
+                        formular_pregunta_saludo += " hola"
+                    }
+                    console.log(formular_pregunta_saludo);
+                    peticionPreguntasrespuestas(formular_pregunta_saludo)
+                }
+                if(element.category == "Correo"){
+                    correo += element.category
+                    correo_texto = element.text
+                }
+                if(element.category == "NumeroTelefono"){
+                    telefono += element.category
+                    telefono_texto = element.text
+                }
+                if(element.category == "NombreUsuario"){
+                    entidad_nombre = element.category
+                    nombreUsuario = element.text
+                }
+                
+                formular_pregunta = intencion+entidad_nombre+telefono+correo
+                console.log("otro winder");
+                console.log(formular_pregunta);
+            });
+            if(formular_pregunta_saludo == ""){
+                console.log("por aqui");
+                console.log(formular_pregunta);
+                peticionPreguntasrespuestas(formular_pregunta)
+            }
         }
+        
          
     })
     .catch(error => {
@@ -475,6 +487,18 @@ function top_clasificados() {
         label_container.append(label_chat_estadisticas_3)
         chat.append(label_container)
         console.log(data.clasificados[0]);
+    })
+    .catch(error =>{
+        console.log(error);
+    })
+}
+
+
+function eliminar_usuario(id) {
+    fetch(`http://127.0.0.1:8000/eliminar-usuario/${id}`)
+    .then(res => res.json())
+    .then(data =>{
+        console.log(data);
     })
     .catch(error =>{
         console.log(error);
