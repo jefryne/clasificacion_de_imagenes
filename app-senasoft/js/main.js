@@ -114,7 +114,7 @@ function hablar_imagen(acento,lemguaje,texto_hablar) {
 async function traslator(texto) {
     const key = 'c57f563494ad41df92dfbe31871ad5cc';
     const location = 'eastus';
-    const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans&to=de&to=es&to=pt&to=zh&to=el&to=ro&to=ru';
+    const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans&to=de&to=es&to=pt&to=zh&to=el&to=ro&to=ru&to=he';
     const headers = {
         "Ocp-Apim-Subscription-Key" : key,
         "Ocp-Apim-Subscription-Region" : location,
@@ -135,11 +135,27 @@ async function traslator(texto) {
         console.log(result);
         const respuesta = result[0].translations[1].text;
         let html_alert = ""
+        let contador = 0
         result[0].translations.forEach(async idioma => {
-            html_alert += '<p><span>'+idioma.to+'</span><span> '+idioma.text+'</span><i class="boton_hablar fa-solid fa-volume-high"></i></p>' 
+            
+            if(contador == 0){
+                html_alert += '<div class="row text-center">'
+                html_alert += '<p class="col-4"><span>'+idioma.to+'</span><span> '+idioma.text+'</span><i class="boton_hablar fa-solid fa-volume-high"></i></p>' 
+                contador++
+            }else if(contador == 3){
+                html_alert += '<p class="col-4"><span>'+idioma.to+'</span><span> '+idioma.text+'</span><i class="boton_hablar fa-solid fa-volume-high"></i></p>' 
+                html_alert += '</div>'
+                contador=0
+            }else{
+                html_alert += '<p class="col-4"><span>'+idioma.to+'</span><span> '+idioma.text+'</span><i class="boton_hablar fa-solid fa-volume-high"></i></p>' 
+            }
+            if(contador !=0){
+                contador++
+            }
+            
         });
         Swal.fire({
-            title: '<strong>HTML <u>example</u></strong>',
+            title: '<strong>Traducciones</strong>',
             icon: 'info',
             html:
               '<div>'+html_alert+'</div>',
@@ -199,6 +215,9 @@ async function traslator(texto) {
             }else if(nodos_hijos[0].textContent == "zh-Hans"){
                 acento = "zh-CN-henan-YundengNeural"
                 lemguaje = "zh-CN-henan"
+            }else if(nodos_hijos[0].textContent == "he"){
+                acento = "he-IL-HilaNeural"
+                lemguaje = "he-IL"
             }
             console.log("aqui");
             console.log(nodos_hijos[1].textContent+"el texto");
