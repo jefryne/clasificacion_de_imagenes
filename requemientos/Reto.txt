@@ -1,0 +1,46 @@
+Reto AI -900
+
+ 
+
+Para el reto vamos a aplicar 2 escenarios vistos en el curso AI-900: Fundamentos de inteligencia artificial en Microsoft.
+
+visión computacional: https://learn.microsoft.com/en-us/training/modules/classify-images-custom-vision/
+traducción: https://learn.microsoft.com/en-us/training/modules/translate-text-with-translation-service/
+
+La actividad constara de los siguientes pasos.
+
+1. Crear una aplicación sencilla que puedas usar como base para llamar los diferentes servicios de inteligencia artificial. Puedes usar el lenguaje de tu preferencia.
+
+ 
+
+2. Conectar el servicio de computer vision a la aplicación de manera que permita llamar el endpoint específico de clasificación. 
+Recuerda que el endpoint y su respectiva key la obtendrás al momento de crear el servicio en Azure. 
+Para este paso vamos a entrenar imágenes de perros, patos y personas.
+
+Azure
+Crear el servicio
+Tomar los datos endpoint y la key
+Agregarlo a la aplicación y poder hacer el llamado
+
+ 
+
+3. Realiza la prueba enviando una imagen al servicio de clasificación desde tu aplicación. El sistema debe devolver el resultado correcto.  RESULTADO
+
+ 
+
+4. Conectar el servicio de traducción a la aplicación de manera que permita utilizar el endpoint.
+
+Azure
+Crear el servicio
+Tomar los datos endpoint y la key
+Agregarlo a la aplicación y poder hacer el llamado
+
+Recuerda que el endpoint y su respectiva key la obtendrás al momento de crear el servicio en Azure.  
+Para este paso vamos a enviar como parámetro del endpoint el resultado que nos ha generado el servicio de clasificación
+ya que queremos traducir la clasificación realizada en diferentes idiomas.
+
+5. Realiza la prueba. El sistema debe mostrar el texto del punto 3 traducido. 
+
+ 
+
+tiene menú contextual

@@ -249,7 +249,86 @@ function identifyImageFILE() {
 };
 
 
-// Traductor del resultado
+//Analisis de imagenes
+function getAnalisis(img,ul) {
+    const key = 'b562ea315899456c9fcde921ce10926b';
+    const endpoint = 'https://servicios-azure.cognitiveservices.azure.com/';
+    const headers = {
+        "Ocp-Apim-Subscription-Key": key,
+        "Content-Type": "application/json"
+    };
+    const body = JSON.stringify({ url: img });
+    fetch(`${endpoint}vision/v3.2/analyze?visualFeatures=Categories,Description,Objects`,{
+        method : 'POST',
+        headers : headers,
+        body : body
+    })
+    .then(resultado => resultado.json())
+    .then( response => {        
+        (async () => {
+            console.log(response);
+            let textoDescription = response.description.captions[0].text;
+            //const descripcionTraslator = await traslator(en,es,textoDescription);
+            //description.textContent = descripcionTraslator;
+            
+            let items = response.description.tags;
+            items.forEach(async element => {
+                const li = document.createElement("li");
+                
+                // Traducir el texto del elemento antes de asignarlo al <li>
+                //const translatedText = await traslator(en,es,element);
+                li.textContent = element;
+                
+                li.classList.add("list-group-item");
+                ul.appendChild(li);
+            });
+        })();
+    })
+    .catch( err => console.error(err));  
+}
+
+
+
+// Parte 2 del reto deteccion de rostros y objetos
+// inputs
+let direccionImgRostro1 = document.getElementById('direccionImgRostro1');
+let direccionImgRostro2 = document.getElementById('direccionImgRostro2');
+let fileInputRostro3 = document.getElementById('fileInputRostro3');
+// imagenes
+let imgRostro1 = document.getElementById('imgRostro1');
+let imgRostro2 = document.getElementById('imgRostro2');
+let imgRostro3 = document.getElementById('imgRostro3');
+
+// ul para añadir los objetos detectados
+let ulObjet1 = document.getElementById('objDetec1');
+let ulObjet2 = document.getElementById('objDetec2');
+let ulObjet3 = document.getElementById('objDetec3');
+
+//cargando imagen desde url
+direccionImgRostro1.addEventListener('input',() => {
+    imgRostro1.src = direccionImgRostro1.value;
+    getAnalisis(direccionImgRostro1.value,ulObjet1);
+});
+
+//cargando imagen desde url
+direccionImgRostro2.addEventListener('input',() => {
+    imgRostro2.src = direccionImgRostro2.value;
+    getAnalisis(direccionImgRostro2.value,ulObjet2);    
+});
+
+//cargando imagen localmente
+fileInputRostro3.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            imgRostro3.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
 
 
 //traducir("hola");

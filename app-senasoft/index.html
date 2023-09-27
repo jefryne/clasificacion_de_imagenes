@@ -144,19 +144,22 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="row g-4">
-                        <!-- SUBIR IMAGEN DESDE UNA URL-->
-                        <div class="col-lg-12">
+                        <div class="col-6">
+                            <!-- SUBIR IMAGEN DESDE UNA URL-->
                             <h2 class="mb-4">Imagenes alojadas en internet</h2>
                             <label for="">Ingrese la direccion de la imagen (URL)</label>
                             <input type="text" class="form-control" id="direccionImg">
+                        </div>
+                        <div class="col-6">
+                            <!-- SUBIR IMAGEN DESDE LOCALMENTE-->
+                            <h2 class="mb-4">Imagenes alojadas localmente</h2>
+                            <label for="">Subir imagen desde este dispositivo</label>
+                            <input type="file" id="fileInput" accept="image/*">
+                        </div>
+
+                        <div class="col-12">
                             <img src="" alt="" id="image" class="img-fluid mt-4">
                         </div>
-                        <hr>
-                        <!-- SUBIR IMAGEN DESDE LOCALMENTE-->
-                        <h2 class="mb-4">Imagenes alojadas localmente</h2>
-                        <label for="">Subir imagen desde este dispositivo</label>
-                        <input type="file" id="fileInput" accept="image/*">
-                        <button class="btn btn-primary" id="classifyButton">Clasificar</button>
                     </div>
                 </div>
                 <div class="col-lg-12" id="resultIdiomas">
@@ -165,12 +168,56 @@
                     </h6>
                 </div>
             </div>
-
+            
         </div>
     </div>
     <!-- Service End -->
+    
+    <!-- Case Start -->
+    <div class="container-fluid  py-5">
+        <div class="container py-5">
+            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 500px;">
+                <div class="btn btn-sm border rounded-pill text-primary px-3 mb-3">Case Study</div>
+                <h2 class="mb-4">Explore Nuestro Servicio de Deteccion de Rostros y Objetos</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
+                    <div class="case-item position-relative overflow-hidden rounded mb-2">
+                        <h2 class="mb-4">Imagenes alojadas en internet</h2>
+                        <input type="text" class="form-control" id="direccionImgRostro1" placeholder="url de la imagen">
+                        <img class="mt-5 img-fluid" src="" alt="" id="imgRostro1">
+                        <ul class="list-group list-group-flush" id="objDetec1">
 
-        <!-- Team Start -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="case-item position-relative overflow-hidden rounded mb-2">
+                        <h2 class="mb-4">Imagenes alojadas en internet</h2>
+                        <input type="text" class="form-control" id="direccionImgRostro2" placeholder="url de la imagen">
+                        <img class="mt-5 img-fluid" src="" alt="" id="imgRostro2">
+                        <ul class="list-group list-group-flush" id="objDetec2">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.7s">
+                    <div class="case-item position-relative overflow-hidden rounded mb-2">
+                        <h2 class="mb-4">Imagenes alojadas localmente</h2>
+                        <input type="file" id="fileInputRostro3" accept="image/*">
+                        <img class="mt-5 img-fluid" src="" alt="" id="imgRostro3">
+                        <ul class="list-group list-group-flush" id="objDetec3">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Case End -->
+
+
+    <!-- Team Start -->
        
         <div class="container mt-5 mb-5">
             <table class="table">
@@ -181,14 +228,16 @@
                     <th scope="col">Telefono</th>
                     <th scope="col">Correo</th>
                 </tr>
-                </thead>
-                <tbody class="table-group-divider" id="tabla_body">
-                </tbody>
-            </table>
-        </div>
-        <!-- Team End -->
+            </thead>
+            <tbody class="table-group-divider" id="tabla_body">
+            </tbody>
+        </table>
+    </div>
+    <!-- Team End -->
+    
+    
 
-    <!-- Feature Start -->
+        <!-- Feature Start -->
     <div class="container-fluid bg-primary feature pt-5">
         <div class="container pt-5">
             <div class="row g-5">
@@ -206,13 +255,13 @@
                         <div class="btn-sm-square bg-white text-primary rounded-circle me-3">
                             <i class="fa fa-check"></i>
                         </div>
-                        <span>  </span>
+                        <span>Tenemos muchos servicios disponibles</span>
                     </div>
                     <div class="d-flex align-items-center text-white mb-3">
                         <div class="btn-sm-square bg-white text-primary rounded-circle me-3">
                             <i class="fa fa-check"></i>
                         </div>
-                        <span>Diam dolor diam ipsum et tempor sit</span>
+                        <span>Excelente atencion</span>
                     </div>
                     <div class="row g-4 pt-3">
                         <div class="col-sm-6">
@@ -220,7 +269,7 @@
                                 <i class="fa fa-users fa-3x text-white"></i>
                                 <div class="ms-3">
                                     <h2 class="text-white mb-0" data-toggle="counter-up">9999</h2>
-                                    <p class="text-white mb-0">Happy Clients</p>
+                                    <p class="text-white mb-0">Clientes felices</p>
                                 </div>
                             </div>
                         </div>
@@ -229,7 +278,7 @@
                                 <i class="fa fa-check fa-3x text-white"></i>
                                 <div class="ms-3">
                                     <h2 class="text-white mb-0" data-toggle="counter-up">9999</h2>
-                                    <p class="text-white mb-0">Project Complete</p>
+                                    <p class="text-white mb-0">Proyectos terminados</p>
                                 </div>
                             </div>
                         </div>
@@ -244,51 +293,6 @@
     <!-- Feature End -->
 
 
-    <!-- Case Start -->
-    <div class="container-fluid bg-light py-5">
-        <div class="container py-5">
-            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 500px;">
-                <div class="btn btn-sm border rounded-pill text-primary px-3 mb-3">Case Study</div>
-                <h1 class="mb-4">Explore Our Recent AI Case Studies</h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="img/project-1.jpg" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
-                            <small>Robotic Automation</small>
-                            <h5 class="lh-base text-white mb-3">Lorem elitr magna stet eirmod labore amet labore clita
-                            </h5>
-                            <span class="btn btn-square btn-primary"><i class="fa fa-arrow-right"></i></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="img/project-2.jpg" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
-                            <small>Machine learning</small>
-                            <h5 class="lh-base text-white mb-3">Lorem elitr magna stet eirmod labore amet labore clita
-                            </h5>
-                            <span class="btn btn-square btn-primary"><i class="fa fa-arrow-right"></i></span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="case-item position-relative overflow-hidden rounded mb-2">
-                        <img class="img-fluid" src="img/project-3.jpg" alt="">
-                        <a class="case-overlay text-decoration-none" href="">
-                            <small>Predictive Analysis</small>
-                            <h5 class="lh-base text-white mb-3">Lorem elitr magna stet eirmod labore amet labore clita
-                            </h5>
-                            <span class="btn btn-square btn-primary"><i class="fa fa-arrow-right"></i></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Case End -->
 
 
     <!-- FAQs Start -->

@@ -1,0 +1,34 @@
+PARTE 2   Reto AI -900
+
+Para el reto vamos a aplicar 3 escenarios vistos en el curso AI-900: Fundamentos de inteligencia artificial en Microsoft.
+
+Reconocimiento de rostros: https://learn.microsoft.com/en-us/training/modules/detect-analyze-faces/3-create-face-solutions?ns-enrollment-type=learningpath&ns-enrollment-id=learn.wwl.explore-computer-vision-microsoft-azure
+Detección de objetos: https://learn.microsoft.com/en-us/training/modules/detect-objects-images-custom-vision/3-create-object-detection-solution?ns-enrollment-type=learningpath&ns-enrollment-id=learn.wwl.explore-computer-vision-microsoft-azure
+Texto a voz : https://learn.microsoft.com/en-us/training/modules/recognize-synthesize-speech/3-exercise-transcribe-speech-use-azure?ns-enrollment-type=learningpath&ns-enrollment-id=learn.wwl.explore-natural-language-processing
+
+La actividad constara de los siguientes pasos.
+
+1. Conectar el servicio de computer vision a la aplicación de manera que permita llamar el endpoint específico de Reconocimiento de rostros.
+ Anteriormente habíamos entrenado imágenes de personas así que vamos a utilizar dichas imágenes para evaluar el servicio de inteligencia artificial.
+
+ 
+
+3. Realiza la prueba enviando una imagen al servicio de clasificación desde tu aplicación. 
+El sistema debe devolver el resultado correcto. Debemos subir 3 fotos diferentes en donde pueda evidenciarse el reconocimiento de los objetos. 
+Asegurarse que las imágenes contengan otros elementos como edificios calles o animales para determinar si el algoritmo logra identificar el rostro correctamente.
+
+ 
+
+4. Conectar el servicio de computer vision a la aplicación de manera que permita llamar el endpoint específico de Detección de objetos. 
+Anteriormente habíamos entrenado imágenes de perros, patos y personas así que vamos a utilizar dichas imágenes para evaluar el servicio de inteligencia artificial.
+
+ 
+
+5. Realiza la prueba. El sistema debe mostrar las 3 imágenes al tiempo identificando un perro un pato y una persona. 
+Y 1 imagen la que se tengan los 3 elementos. Puede crearla utilizando inteligencia artificial o buscar en algun banco de imágenes públicas.
+
+ 
+
+6. Conectar el servicio de speech a la aplicación de manera que permita llamar el endpoint para convertir el resultado de la traducción de texto ejecutada en la parte 1 del reto. En este caso el sistema debe permitir que la aplicación creada logre reproducir sonido y que éste pueda decir si es un perro, un pato, una persona en las imágenes encontradas y en el idioma que seleccionemos. 
+
+tiene menú contextual
