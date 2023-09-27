@@ -63,48 +63,58 @@
     
 })(jQuery);
 
+let resultIdiomas = document.getElementById("resultIdiomas")
 
 //Obteniendo el elemento donde se imprime el resultado
 let resultado = document.getElementById('resultado');
 
-// Obteniendo el elmento para agregar los resultados en varios idiomas
-let resultIdiomas = document.getElementById('resultIdiomas');
 
-//Consumo del traductor
-function traducir(texto_traducir) {
+function hablar_imagen(acento,lemguaje,texto_hablar) {
+    console.log(texto_hablar+"llego");
+    const apiUrl = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1'; // Reemplaza con la URL correcta
+    const subscriptionKey = 'c57f563494ad41df92dfbe31871ad5cc'; // Reemplaza con tu clave de suscripción
+
+    const headers = new Headers();
+    headers.append('Ocp-Apim-Subscription-Key', subscriptionKey);
+    headers.append('Content-Type', 'application/ssml+xml');
+    headers.append('X-Microsoft-OutputFormat', 'audio-16khz-128kbitrate-mono-mp3');
+    headers.append('User-Agent', 'curl');
+
+
+
+    const ssml = "<speak version='1.0' xml:lang='"+lemguaje+"'><voice xml:lang='"+lemguaje+"' xml:gender='Female' name='"+acento+"'>"+texto_hablar+"</voice></speak>";
+
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: headers,
+        body: ssml,
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.blob();
+        } else {
+            throw new Error('Error en la solicitud a la API.');
+        }
+    })
+    .then((blob) => {
+        const url = URL.createObjectURL(blob);
+
+        // Crea un nuevo elemento de audio
+        const audio = new Audio(url);
     
-    fetch("https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans",{
-        method: "POST",
-        headers: {
-            "Ocp-Apim-Subscription-Key": "c57f563494ad41df92dfbe31871ad5cc",
-            "Ocp-Apim-Subscription-Region": "eastus",
-            "Content-Type": "application/json"
-            
-        },
-        body: JSON.stringify([{'text': texto_traducir}]) 
+        // Reproduce automáticamente el audio
+        audio.play();
     })
-    .then(respuesta => respuesta.json())
-    .then(data =>{
-        console.log(data[0].translations);
-        data[0].translations.forEach(idioma => {
-            let h6Result = document.createElement('h6');
-            h6Result.classList.add('text-center');
-            h6Result.textContent =  `idioma:(${idioma.to}) = ${idioma.text}`;
-            resultIdiomas.append(h6Result);
-            console.log(idioma.text);
-        });
-    })
-    .catch(error => {
-        console.log(error);
-    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
-
 
 
 async function traslator(texto) {
     const key = 'c57f563494ad41df92dfbe31871ad5cc';
     const location = 'eastus';
-    const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans';
+    const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans&to=de&to=es&to=pt&to=zh&to=el&to=ro&to=ru';
     const headers = {
         "Ocp-Apim-Subscription-Key" : key,
         "Ocp-Apim-Subscription-Region" : location,
@@ -122,17 +132,119 @@ async function traslator(texto) {
         });
         
         const result = await response.json();
-        //const respuesta = result[0].translations[1].text;
+        console.log(result);
+        const respuesta = result[0].translations[1].text;
         result[0].translations.forEach(async idioma => {
-            let h6Result = document.createElement('h6');
-            h6Result.classList.add('text-center');
-            h6Result.textContent =  `idioma:(${idioma.to}) = ${idioma.text}`;
-            resultIdiomas.append(h6Result);
+            let p = document.createElement('p')
+            let span_1 = document.createElement('span');
+            let span_2 = document.createElement('span');
+            let i = document.createElement('i');
+            i.classList.add("boton_hablar", "fa-solid", "fa-volume-high")
+            span_1.textContent = idioma.to
+            span_1.classList.add("me-2")
+            span_2.textContent = idioma.text
+            span_2.classList.add("me-2")
+            p.append(span_1)
+            p.append(span_2)
+            p.append(i)
+            resultIdiomas.append(p);
         });
+        
+    let iconos_hablar = document.querySelectorAll(".boton_hablar")    
+    for (let index = 0; index < iconos_hablar.length; index++) {
+        iconos_hablar[index].addEventListener("click",()=>{
+            let elemento_padre = iconos_hablar[index].parentElement
+            let nodos_hijos =elemento_padre.childNodes
+            console.log(nodos_hijos);
+            let acento = ""
+            let lemguaje = ""
+            console.log(nodos_hijos[0].textContent+"idioma");
+            if(nodos_hijos[0].textContent == "af"){
+                acento = "af-ZA-AdriNeural"
+                lemguaje = "af-ZA"
+            }else if(nodos_hijos[0].textContent == "es"){
+                acento = "es-ES-ElviraNeural"
+                lemguaje = "es-ES"
+            }else if(nodos_hijos[0].textContent == "de"){
+                acento = "de-DE-KatjaNeural"
+                lemguaje = "de-DE"
+            }else if(nodos_hijos[0].textContent == "en"){
+                acento = "en-US-JennyMultilingualNeural"
+                lemguaje = "en-US"
+            }else if(nodos_hijos[0].textContent == "it"){
+                acento = "it-IT-ElsaNeural"
+                lemguaje = "it-IT"
+            }else if(nodos_hijos[0].textContent == "pt"){
+                acento = "pt-PT-RaquelNeural"
+                lemguaje = "pt-PT"
+            }else if(nodos_hijos[0].textContent == "zh"){
+                acento = "zh-CN-XiaoxiaoNeural"
+                lemguaje = "zh-CN"
+            }else if(nodos_hijos[0].textContent == "el"){
+                acento = "el-GR-AthinaNeural"
+                lemguaje = "el-GR"
+            }else if(nodos_hijos[0].textContent == "ro"){
+                acento = "ro-RO-AlinaNeural"
+                lemguaje = "ro-RO"
+            }else if(nodos_hijos[0].textContent == "ru"){
+                acento = "ru-RU-SvetlanaNeural"
+                lemguaje = "ru-RU"
+            }else if(nodos_hijos[0].textContent == "fr"){
+                acento = "fr-FR-BrigitteNeural"
+                lemguaje = "fr-FR"
+            }else if(nodos_hijos[0].textContent == "zh-Hans"){
+                acento = "zh-CN-henan-YundengNeural"
+                lemguaje = "zh-CN-henan"
+            }
+            console.log("aqui");
+            console.log(nodos_hijos[1].textContent+"el texto");
+            console.log(acento);
+            console.log(lemguaje);
+            console.log(nodos_hijos[1].textContent+"el texto");
+            hablar_imagen(acento, lemguaje, nodos_hijos[1].textContent)
+        })
+    }
+
     } catch (error) {
         console.log(error);
     }
 }
+//Consumo del traductor
+
+
+
+// async function traslator(texto) {
+//     const key = 'c57f563494ad41df92dfbe31871ad5cc';
+//     const location = 'eastus';
+//     const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=fr&to=en&to=it&to=zh-Hans';
+//     const headers = {
+//         "Ocp-Apim-Subscription-Key" : key,
+//         "Ocp-Apim-Subscription-Region" : location,
+//         "Content-Type" : "application/json"
+//     };
+//     const body = JSON.stringify([{
+//         'text' : texto
+//     }]);
+
+//     try {
+//         const response = await fetch(endpoint, {
+//             method: 'POST',
+//             headers: headers,
+//             body: body
+//         });
+        
+//         const result = await response.json();
+//         //const respuesta = result[0].translations[1].text;
+//         result[0].translations.forEach(async idioma => {
+//             let h6Result = document.createElement('h6');
+//             h6Result.classList.add('text-center');
+//             h6Result.textContent =  `idioma:(${idioma.to}) = ${idioma.text}`;
+//             resultIdiomas.append(h6Result);
+//         });
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 
 // Usando el endpoint de custom vision subiendo imagen desde una URL
@@ -330,62 +442,6 @@ fileInputRostro3.addEventListener('change', (event) => {
     }
 });
 
-
-//traducir("hola");
-
-
-// texto a voz
-
-//chino zh-CN
-// <speak version='1.0' xml:lang='zh-CN'>
-//   <voice xml:lang='zh-CN' xml:gender='Female' name='zh-CN-XiaoxueNeural'>"+texto_hablar+"</voice>
-// </speak>
-
-
-//frances fr-FR
-// <speak version='1.0' xml:lang='fr-FR'>
-//   <voice xml:lang='fr-FR' xml:gender='Female' name='fr-FR-AdeleNeural'>"+texto_hablar+"</voice>
-// </speak>
-
-//italiano zh-CN
-
-
-// function hablar(texto_hablar,lang,name) {
-//     const apiUrl = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1';
-//     const subscriptionKey = '64bd01cdd7d94e569857f92701fd3a38'; 
-    
-//     fetch(apiUrl, {
-//         method: 'POST',
-//         headers: {
-//             'Ocp-Apim-Subscription-Key': subscriptionKey,
-//             'Content-Type': 'application/ssml+xml',
-//             'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
-//             'User-Agent': 'curl'
-//         },
-//             // <speak version='1.0' xml:lang='it-IT'><voice xml:lang='it-IT' xml:gender='Female' name='it-IT-FedericaNeural'>"+texto_hablar+"</voice></speak>
-//         body: `<speak version='1.0' xml:lang='${lang}'><voice xml:lang='${lang}' xml:gender='Female' name='${name}'>${texto_hablar}</voice></speak>`
-//     })
-//     .then((response) => {
-//         if (response.ok) {
-//             return response.blob();
-//         } else {
-//             throw new Error('Error en la solicitud a la API.');
-//         }
-//     })
-//     .then((blob) => {
-//         const url = URL.createObjectURL(blob);
-
-//         // Crea un nuevo elemento de audio
-//         const audio = new Audio(url);
-    
-//         // Reproduce automáticamente el audio
-//         audio.play();
-//         texto_de_voz=""
-//     })
-//     .catch((error) => {
-//         console.error('Error:', error);
-//     });
-// }
 
 
 // Deteccion de rostro
