@@ -16,6 +16,8 @@ let nombreUsuario = " "
 let telefono_texto = ""
 let correo_texto = ""
 let entidad_nombre = ""
+let acento = "es-ES-ElviraNeural"
+let lemguaje = "es-ES"
 
 
 
@@ -200,7 +202,7 @@ function crearRegistros(nombre_usuario,telefono_texto,correo_texto) {
 
 
 
-function hablar(texto_hablar, idioma_hablar) {
+function hablar(texto_hablar, acento, lemguaje) {
     const apiUrl = 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1'; // Reemplaza con la URL correcta
     const subscriptionKey = 'c57f563494ad41df92dfbe31871ad5cc'; // Reemplaza con tu clave de suscripción
 
@@ -210,7 +212,7 @@ function hablar(texto_hablar, idioma_hablar) {
     headers.append('X-Microsoft-OutputFormat', 'audio-16khz-128kbitrate-mono-mp3');
     headers.append('User-Agent', 'curl');
 
-    const ssml = "<speak version='1.0' xml:lang='es-ES'><voice xml:lang='es-CO' xml:gender='Female' name='es-ES-ElviraNeural    '>"+texto_hablar+"</voice></speak>";
+    const ssml = "<speak version='1.0' xml:lang='"+lemguaje+"'><voice xml:lang='"+lemguaje+"' xml:gender='Female' name='"+acento+"'>"+texto_hablar+"</voice></speak>";
 
     fetch(apiUrl, {
         method: 'POST',
@@ -273,13 +275,50 @@ function traducir(texto_traducir,accion) {
         }else if(accion == "respuesta"){
             let label_chat = document.createElement("div");
             label_chat.classList.add("alert", "alert-primary")
+            if(idioma_detectado == "af"){
+                acento = "af-ZA-AdriNeural"
+                lemguaje = "af-ZA"
+            }else if(idioma_detectado == "es"){
+                acento = "es-ES-ElviraNeural"
+                lemguaje = "es-ES"
+            }else if(idioma_detectado == "de"){
+                acento = "de-DE-KatjaNeural"
+                lemguaje = "de-DE"
+            }else if(idioma_detectado == "en"){
+                acento = "en-US-JennyMultilingualNeural"
+                lemguaje = "en-US"
+            }else if(idioma_detectado == "it"){
+                acento = "it-IT-ElsaNeural"
+                lemguaje = "it-IT"
+            }else if(idioma_detectado == "pt"){
+                acento = "pt-PT-RaquelNeural"
+                lemguaje = "pt-PT"
+            }else if(idioma_detectado == "zh"){
+                acento = "zh-CN-XiaoxiaoNeural"
+                lemguaje = "zh-CN"
+            }else if(idioma_detectado == "el"){
+                acento = "el-GR-AthinaNeural"
+                lemguaje = "el-GR"
+            }else if(idioma_detectado == "ro"){
+                acento = "ro-RO-AlinaNeural"
+                lemguaje = "ro-RO"
+            }else if(idioma_detectado == "ru"){
+                acento = "ru-RU-SvetlanaNeural"
+                lemguaje = "ru-RU"
+            }else if(idioma_detectado == "fr"){
+                acento = "fr-FR-BrigitteNeural"
+                lemguaje = "fr-FR"
+            }else if(idioma_detectado == "zh-Hans"){
+                acento = "zh-CN-henan-YundengNeural"
+                lemguaje = "zh-CN-henan"
+            }
             if(formular_pregunta_saludo != ""){
                 label_chat.textContent = data[0].translations[0].text+" "+nombreUsuario
-                hablar(textContent = data[0].translations[0].text+" "+nombreUsuario, idioma_detectado)
+                hablar(textContent = data[0].translations[0].text+" "+nombreUsuario, acento, lemguaje)
                 // formular_pregunta_saludo = ""
             }else{
                 label_chat.textContent = data[0].translations[0].text
-                hablar(textContent = data[0].translations[0].text, idioma_detectado)
+                hablar(textContent = data[0].translations[0].text,acento, lemguaje )
             }
             chat.append(label_chat)
             
