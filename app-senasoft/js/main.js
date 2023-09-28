@@ -550,7 +550,7 @@ function getDetectionURL(imageUrl,ul) {
         return response.json();
     })
     .then(prediction =>  {
-
+        let alert = true;
         (async () => {
         
             let arrayPredictions = prediction.predictions;
@@ -561,6 +561,10 @@ function getDetectionURL(imageUrl,ul) {
                     // Traducir el texto del elemento antes de asignarlo al <li>
                     //const translatedText = await traslator(en,es,element);
                     li.textContent = `${elemento.tagName} - ${elemento.probability}%`;
+                    if(alert == true){
+                        traslator(elemento.tagName);
+                        alert = false
+                    }
                     
                     li.classList.add("list-group-item");
                     ul.appendChild(li);
@@ -600,6 +604,7 @@ function getDetectionFile(fileInputRostro,ul) {
     })
     .then(response => response.json())
     .then(data => {
+        let alert = true
         let arrayPredictions = data.predictions;
         arrayPredictions.forEach(elemento => {
             if (elemento.probability > 0.85) {
@@ -609,10 +614,13 @@ function getDetectionFile(fileInputRostro,ul) {
                 // Traducir el texto del elemento antes de asignarlo al <li>
                 //const translatedText = await traslator(en,es,element);
                 li.textContent = `${elemento.tagName} - ${elemento.probability}%`;
-                
+                console.log("aqui winder "+ elemento.tagName);
+                if(alert == true){
+                    traslator(elemento.tagName)
+                    alert = false
+                }
                 li.classList.add("list-group-item");
                 ul.appendChild(li);
-                
             }
         });
         console.log(data);

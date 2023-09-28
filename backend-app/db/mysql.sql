@@ -24,4 +24,5 @@ INSERT INTO `clasificados` (`id_clasificado`, `categoria`, `num_analisis`) VALUE
 ('6', 'AMERICAN REDSTART', '0'),
 ('7', 'AFRICAN FIREFINCH', '0'),
 ('8', 'ALEXANDRINE PARAKEET', '0'),
-('9', 'AMERICAN BITTERN', '0');
+('9', 'AMERICAN BITTERN', '0'),
+('10', 'perro', '0');
