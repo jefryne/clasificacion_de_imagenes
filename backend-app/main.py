@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from db import crear_registro, leer_registros,top_clasificados
 from pydantic import BaseModel
-from db import aumentar_columna_select
+from db import aumentar_columna_select,eliminar_registro,consultar_accion
 import uvicorn
 
 
@@ -55,3 +55,24 @@ def clasificados():
 def aumentar_columna(categoria: str):
     aumentar_columna_select(categoria)
     return {"actualizado": "exitoxamente"}
+
+@app.get("/eliminar-usuario/{id}")
+def aumentar_columna(id: int):
+    eliminar_registro(id)
+    return {"eliminado": "exitoxamente"}
+
+
+@app.get("/eliminar-usuario/{id}")
+def aumentar_columna(id: int):
+    eliminar_registro(id)
+    return {"eliminado": "exitoxamente"}
+
+@app.get("/consulta-registros/{valor}/{accion}")
+def aumentar_columna(valor: int, accion: str):
+    repuesta = consultar_accion(valor,accion)
+    if(repuesta != None):
+        return repuesta
+    else:
+        return {"error": "no se devolvio ningun valor"}
+    
+    

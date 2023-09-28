@@ -91,3 +91,21 @@ def aumentar_columna_select(categoria):
         aumentar_columna_insert(resultado[0],categoria)
     except:
         return None 
+
+
+def consultar_accion(valor,accion):
+    query = ""
+    if(accion == "Mayor"):
+        query = "SELECT * FROM clasificados WHERE num_analisis > %s"
+    elif(accion == "Menor"):
+        query = "SELECT * FROM clasificados WHERE num_analisis < %s"
+
+    if(query != ""):   
+        try:
+            values = (valor,)
+            cursor.execute(query,values)
+            resultado = cursor.fetchall()
+            db.commit()
+            return resultado
+        except:
+            return None
