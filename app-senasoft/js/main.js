@@ -412,6 +412,10 @@ let ulObjet1 = document.getElementById('objDetec1');
 let ulObjet2 = document.getElementById('objDetec2');
 let ulObjet3 = document.getElementById('objDetec3');
 let ulObjet4 = document.getElementById('objDetec4');
+
+// marcas
+let marcar_caras3 = document.getElementById('marcar_caras3');
+
 //cargando imagen desde url
 direccionImgRostro1.addEventListener('input', async ()  => {
     imgRostro1.src = direccionImgRostro1.value;
@@ -523,13 +527,28 @@ function getDeteccionFace(img) {
 // Fin del Deteccion de rostros
 
 
+// Marcar objetos detectados
 
+
+function marcasObjetos(height, left, top, width, img, contendorMarcas) {
+    const imgContainer = document.getElementById('image-container');
+    
+    let newDiv = document.createElement('div');
+    newDiv.classList.add('position-absolute');
+    newDiv.style.left = `${(left * imgContainer.clientWidth) / img.naturalWidth}px`;
+    newDiv.style.top = `${(top * imgContainer.clientHeight) / img.naturalHeight}px`;
+    newDiv.style.width = `${(width * imgContainer.clientWidth) / img.naturalWidth}px`;
+    newDiv.style.height = `${(height * imgContainer.clientHeight) / img.naturalHeight}px`;
+    newDiv.style.border = "2px solid red";
+    contendorMarcas.appendChild(newDiv);
+}
+// Fin marcar objetos detectados
 
 
 
 //Deteccion de Objetos por URL
 function getDetectionURL(imageUrl,ul) {
-    const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV2/url";
+    const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV4/url";
     const predictionKey = "b562ea315899456c9fcde921ce10926b";
     const headers = {
         'Prediction-Key': predictionKey,
@@ -562,7 +581,8 @@ function getDetectionURL(imageUrl,ul) {
                     
                     li.classList.add("list-group-item");
                     ul.appendChild(li);
-                    aumentardatos(elemento.tagName);
+                    
+                    
                 }
             });
             console.log(prediction);
@@ -582,7 +602,7 @@ function getDetectionFile(fileInputRostro,ul) {
         return;
     }
     const apiKey = "b562ea315899456c9fcde921ce10926b";
-    const endpoint = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV2/image";
+    const endpoint = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV4/image";
     const file = fileInputRostro.files[0];
     
     const formData = new FormData();
@@ -601,6 +621,7 @@ function getDetectionFile(fileInputRostro,ul) {
         arrayPredictions.forEach(elemento => {
             if (elemento.probability > 0.95) {
                 const li = document.createElement("li");
+                //marcasObjetos(elemento.boundingBox.height,elemento.boundingBox.left,elemento.boundingBox.top,elemento.boundingBox.width,imgRostro3,marcar_caras3);
                 
                 // Traducir el texto del elemento antes de asignarlo al <li>
                 //const translatedText = await traslator(en,es,element);
@@ -608,8 +629,7 @@ function getDetectionFile(fileInputRostro,ul) {
                 
                 li.classList.add("list-group-item");
                 ul.appendChild(li);
-                aumentardatos(elemento.tagName);
-
+                
             }
         });
         console.log(data);

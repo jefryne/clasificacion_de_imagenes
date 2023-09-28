@@ -530,6 +530,8 @@ function consultar_accion(valor,accion) {
     .then(res => res.json())
     .then(data =>{
         console.log(data);
+            let texto = "Aqui tienes los datos que solicitaste"
+            traducir(texto,"respuesta")
         data.forEach(element => {
             let label_chat_datos_1 = document.createElement("div");
             label_chat_datos_1.classList.add("alert", "alert-primary")
