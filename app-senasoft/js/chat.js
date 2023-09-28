@@ -524,20 +524,22 @@ function eliminar_usuario(id) {
 }
 
 function consultar_accion(valor,accion) {
+    let label_chat_datos_1 = document.createElement("div");
+    label_chat_datos_1.classList.add("alert", "alert-primary");
     console.log(valor);
     console.log(accion);
     fetch(`http://127.0.0.1:8000/consulta-registros/${valor}/${accion}`)
     .then(res => res.json())
     .then(data =>{
         console.log(data);
-            let texto = "Aqui tienes los datos que solicitaste"
-            traducir(texto,"respuesta")
+        let texto = "Aqui tienes los datos que solicitaste";
+        traducir(texto,"respuesta");
+        var i = 1;
         data.forEach(element => {
-            let label_chat_datos_1 = document.createElement("div");
-            label_chat_datos_1.classList.add("alert", "alert-primary")
-            label_chat_datos_1.textContent = "ID: "+element[0]+" Categoria: "+element[1]+" NumAna: "+ element[2]
-            chat.append(label_chat_datos_1)
+            label_chat_datos_1.textContent += `${i}.Categoria: ${element[1]} - NumAnality:  ${element[2]} \n\r` ;
+            i++;
         });
+        chat.append(label_chat_datos_1);
     })
     .catch(error =>{
         console.log(error);

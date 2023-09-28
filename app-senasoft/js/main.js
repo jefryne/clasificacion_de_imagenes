@@ -527,25 +527,6 @@ function getDeteccionFace(img) {
 // Fin del Deteccion de rostros
 
 
-// Marcar objetos detectados
-
-
-function marcasObjetos(height, left, top, width, img, contendorMarcas) {
-    const imgContainer = document.getElementById('image-container');
-    
-    let newDiv = document.createElement('div');
-    newDiv.classList.add('position-absolute');
-    newDiv.style.left = `${(left * imgContainer.clientWidth) / img.naturalWidth}px`;
-    newDiv.style.top = `${(top * imgContainer.clientHeight) / img.naturalHeight}px`;
-    newDiv.style.width = `${(width * imgContainer.clientWidth) / img.naturalWidth}px`;
-    newDiv.style.height = `${(height * imgContainer.clientHeight) / img.naturalHeight}px`;
-    newDiv.style.border = "2px solid red";
-    contendorMarcas.appendChild(newDiv);
-}
-// Fin marcar objetos detectados
-
-
-
 //Deteccion de Objetos por URL
 function getDetectionURL(imageUrl,ul) {
     const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV4/url";
