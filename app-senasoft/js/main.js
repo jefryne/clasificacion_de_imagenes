@@ -65,7 +65,8 @@
 
 let resultIdiomas = document.getElementById("resultIdiomas");
 
-
+// Resultado de la palabra detectada
+let resultORC = document.getElementById('ResultORC');
 
 //Obteniendo el elemento donde se imprime el resultado
 let resultado = document.getElementById('resultado');
@@ -421,6 +422,7 @@ direccionImgRostro1.addEventListener('input', async ()  => {
     imgRostro1.src = direccionImgRostro1.value;
     getDeteccionFace(direccionImgRostro1.value);
     getDetectionURL(direccionImgRostro1.value,ulObjet1);
+    orc(direccionImgRostro1.value);
     
     let anality = await getAnalisis(direccionImgRostro1.value);
     let descrip = await traslatorAnality(anality);
@@ -600,7 +602,7 @@ function getDetectionFile(fileInputRostro,ul) {
     .then(data => {
         let arrayPredictions = data.predictions;
         arrayPredictions.forEach(elemento => {
-            if (elemento.probability > 0.95) {
+            if (elemento.probability > 0.85) {
                 const li = document.createElement("li");
                 //marcasObjetos(elemento.boundingBox.height,elemento.boundingBox.left,elemento.boundingBox.top,elemento.boundingBox.width,imgRostro3,marcar_caras3);
                 
@@ -655,6 +657,7 @@ limpiarDatos2.addEventListener('click', () => {
     removerHijos(marcar_caras);
     imgRostro1.src = "";
     direccionImgRostro1.value = "";
+    resultORC.textContent = "";
 });
 
 
@@ -678,3 +681,51 @@ limpiarDatos5.addEventListener('click', () => {
     fileInputRostro4.value = "";
     direccionImgRostro4.value = "";
 });
+
+
+// RECONOCIMIENTO OPTICO DE CARACTERES
+
+
+function orc(img) {
+    var key = "8eeacffadf5a4e97b43a856e1abe59b3";
+    var endpoint = "https://computer-vision-day-1.cognitiveservices.azure.com/";
+
+    var uriBase = endpoint + "vision/v3.1/ocr";
+
+    // Request parameters.
+    var params = {
+        "language": "unk",
+        "detectOrientation": "true",
+    };
+
+    // Perform the REST API call using fetch.
+    fetch(`${uriBase}?${new URLSearchParams(params)}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Ocp-Apim-Subscription-Key": key,
+        },
+        body: JSON.stringify({ url: img }),
+    })
+    .then(response => response.json())
+    .then(function(data) {
+        console.log(data);
+        
+        let palabra = "";
+        data.regions.forEach(elementData => {
+            
+            elementData.lines.forEach(element => {
+                element.words.forEach(texto => {
+                    palabra += `${texto.text}`;
+                });
+                palabra += " \n\r ";
+            });
+        });
+        resultORC.textContent = palabra;
+        
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+}
+
