@@ -240,12 +240,12 @@ async function traslator(texto) {
 let direccionImg = document.getElementById('direccionImg');
 let image = document.getElementById('image');
 
-direccionImg.addEventListener('input',() => {
+direccionImg.addEventListener('input',async () => {
     image.src = direccionImg.value;
     identifyImageURL(direccionImg.value);
-    if (direccionImg.value == '') {
-        removerHijos(resultIdiomas);
-    }
+    let anality = await getAnalisis(direccionImg.value);
+    let descrip = await traslatorAnality(anality);
+    image.setAttribute('title',descrip);
 })
 
 
@@ -341,7 +341,7 @@ function identifyImageFILE() {
 
 
 //Analisis de imagenes
-function getAnalisis(img,ul) {
+async function getAnalisis(img) {
     const key = 'b562ea315899456c9fcde921ce10926b';
     const endpoint = 'https://servicios-azure.cognitiveservices.azure.com/';
     const headers = {
@@ -349,35 +349,43 @@ function getAnalisis(img,ul) {
         "Content-Type": "application/json"
     };
     const body = JSON.stringify({ url: img });
-    fetch(`${endpoint}vision/v3.2/analyze?visualFeatures=Categories,Description,Objects`,{
-        method : 'POST',
-        headers : headers,
-        body : body
-    })
-    .then(resultado => resultado.json())
-    .then( response => {        
-        (async () => {
-            console.log(response);
-            let textoDescription = response.description.captions[0].text;
-            //const descripcionTraslator = await traslator(en,es,textoDescription);
-            //description.textContent = descripcionTraslator;
-            
-            let items = response.description.tags;
-            items.forEach(async element => {
-                const li = document.createElement("li");
-                
-                // Traducir el texto del elemento antes de asignarlo al <li>
-                //const translatedText = await traslator(en,es,element);
-                li.textContent = element;
-                
-                li.classList.add("list-group-item");
-                ul.appendChild(li);
-            });
-        })();
-    })
-    .catch( err => console.error(err));  
+
+    const response = await fetch(`${endpoint}vision/v3.2/analyze?visualFeatures=Categories,Description,Objects`, {
+        method: 'POST',
+        headers: headers,
+        body: body
+    });
+    const result = await response.json();
+    let textoDescription = result.description.captions[0].text;
+    return textoDescription;
 }
 
+// traductor para el analisis de imagen
+async function traslatorAnality(texto) {
+    const key = 'c57f563494ad41df92dfbe31871ad5cc';
+    const location = 'eastus';
+    const endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=es';
+    const headers = {
+        "Ocp-Apim-Subscription-Key" : key,
+        "Ocp-Apim-Subscription-Region" : location,
+        "Content-Type" : "application/json"
+    };
+    const body = JSON.stringify([{
+        'text' : texto
+    }]);
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: headers,
+            body: body
+        });
+        const result = await response.json();
+        const respuesta = result[0].translations[0].text;
+        return respuesta;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 
 // Parte 2 del reto deteccion de rostros y objetos
@@ -405,21 +413,31 @@ let ulObjet2 = document.getElementById('objDetec2');
 let ulObjet3 = document.getElementById('objDetec3');
 let ulObjet4 = document.getElementById('objDetec4');
 //cargando imagen desde url
-direccionImgRostro1.addEventListener('input',() => {
+direccionImgRostro1.addEventListener('input', async ()  => {
     imgRostro1.src = direccionImgRostro1.value;
     getDeteccionFace(direccionImgRostro1.value);
     getDetectionURL(direccionImgRostro1.value,ulObjet1);
+    
+    let anality = await getAnalisis(direccionImgRostro1.value);
+    let descrip = await traslatorAnality(anality);
+    imgRostro1.setAttribute('title',descrip);
+    
     if (direccionImgRostro1.value == '') {
         removerHijos(marcar_caras);
-    }
-    //getAnalisis(direccionImgRostro1.value,ulObjet1);
+    }  
+
 });
 
+
+
 //cargando imagen desde url
-direccionImgRostro2.addEventListener('input',() => {
+direccionImgRostro2.addEventListener('input',async () => {
     imgRostro2.src = direccionImgRostro2.value;
     getDetectionURL(direccionImgRostro2.value,ulObjet2);
-    //getAnalisis(direccionImgRostro2.value,ulObjet2);    
+
+    let anality = await getAnalisis(direccionImgRostro2.value);
+    let descrip = await traslatorAnality(anality);
+    imgRostro2.setAttribute('title',descrip);
 });
 
 //cargando imagen localmente
