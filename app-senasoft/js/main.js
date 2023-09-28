@@ -252,7 +252,7 @@ direccionImg.addEventListener('input',async () => {
 
 //Clasificacion por URL
 function identifyImageURL(imageUrl) {
-    const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/24dc9b83-0ec2-4a5d-8609-bf2e6c0ddd5a/classify/iterations/modelov2/url";
+    const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/24dc9b83-0ec2-4a5d-8609-bf2e6c0ddd5a/classify/iterations/modelov3/url";
     const predictionKey = "b562ea315899456c9fcde921ce10926b";
     const headers = {
         'Prediction-Key': predictionKey,
@@ -314,7 +314,7 @@ function identifyImageFILE() {
     }
 
     const apiKey = "b562ea315899456c9fcde921ce10926b";
-    const apiUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/24dc9b83-0ec2-4a5d-8609-bf2e6c0ddd5a/classify/iterations/modelov2/image";
+    const apiUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/24dc9b83-0ec2-4a5d-8609-bf2e6c0ddd5a/classify/iterations/modelov3/image";
     const file = fileInput.files[0];
 
     const formData = new FormData();
@@ -531,7 +531,7 @@ function getDeteccionFace(img) {
 
 //Deteccion de Objetos por URL
 function getDetectionURL(imageUrl,ul) {
-    const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV4/url";
+    const predictionUrl = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV5/url";
     const predictionKey = "b562ea315899456c9fcde921ce10926b";
     const headers = {
         'Prediction-Key': predictionKey,
@@ -589,7 +589,7 @@ function getDetectionFile(fileInputRostro,ul) {
         return;
     }
     const apiKey = "b562ea315899456c9fcde921ce10926b";
-    const endpoint = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV4/image";
+    const endpoint = "https://servicios-azure.cognitiveservices.azure.com/customvision/v3.0/Prediction/34154355-5074-4e27-85a3-bb9549d802f2/detect/iterations/deteccionV5/image";
     const file = fileInputRostro.files[0];
     
     const formData = new FormData();
@@ -609,10 +609,7 @@ function getDetectionFile(fileInputRostro,ul) {
         arrayPredictions.forEach(elemento => {
             if (elemento.probability > 0.85) {
                 const li = document.createElement("li");
-                //marcasObjetos(elemento.boundingBox.height,elemento.boundingBox.left,elemento.boundingBox.top,elemento.boundingBox.width,imgRostro3,marcar_caras3);
-                
                 // Traducir el texto del elemento antes de asignarlo al <li>
-                //const translatedText = await traslator(en,es,element);
                 li.textContent = `${elemento.tagName} - ${elemento.probability}%`;
                 console.log("aqui winder "+ elemento.tagName);
                 if(alert == true){
