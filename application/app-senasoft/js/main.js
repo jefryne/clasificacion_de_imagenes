@@ -531,7 +531,7 @@ function getDeteccionFace(img) {
 
 //Deteccion de Objetos por URL
 function getDetectionURL(imageUrl,ul) {
-    const predictionUrl = "https://sambraulio.cognitiveservices.azure.com/customvision/v3.0/Prediction/20709e24-3cd5-456b-b4c5-e3501881575b/detect/iterations/deteccionAdsoV1/url";
+    const predictionUrl = "https://sambraulio.cognitiveservices.azure.com/customvision/v3.0/Prediction/20709e24-3cd5-456b-b4c5-e3501881575b/detect/iterations/deteccionAdsoV2/url";
     const predictionKey = "609bcbd8f70d4b89aad75513331eb05e";
     const headers = {
         'Prediction-Key': predictionKey,
@@ -589,7 +589,7 @@ function getDetectionFile(fileInputRostro,ul) {
         return;
     }
     const apiKey = "609bcbd8f70d4b89aad75513331eb05e";
-    const endpoint = "https://sambraulio.cognitiveservices.azure.com/customvision/v3.0/Prediction/20709e24-3cd5-456b-b4c5-e3501881575b/detect/iterations/deteccionAdsoV1/image";
+    const endpoint = "https://sambraulio.cognitiveservices.azure.com/customvision/v3.0/Prediction/20709e24-3cd5-456b-b4c5-e3501881575b/detect/iterations/deteccionAdsoV2/image";
     const file = fileInputRostro.files[0];
     
     const formData = new FormData();
